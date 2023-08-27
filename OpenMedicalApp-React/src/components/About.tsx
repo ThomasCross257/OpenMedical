@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function Header() {
+function About() {
   const [] = useState(0);
 
   return (
@@ -30,4 +30,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default About;

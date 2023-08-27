@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Link,  BrowserRouter  as Router, Route, Routes} from 'react-router-dom';
 import Homepage from './Homepage.tsx'
 import About from './About.tsx'
+import Login from './Login.tsx'
 
-function Header() {
+function App() {
   const [] = useState(0);
 
   return (
@@ -18,6 +19,12 @@ function Header() {
             <li>
               <Link to="/about" className="nav-link">About</Link>
             </li>
+            <li>
+              <Link to="/login" className="nav-link">Login</Link>
+            </li>
+            <li>
+              <a href ="https://github.com/ThomasCross257/CSE4050-Project" className="nav-link">Github</a>
+            </li>
           </ul>
         </div>
 
@@ -27,10 +34,11 @@ function Header() {
       <Routes>
         <Route path="/" element={<Homepage/>} />
         <Route path="/about" element={<About/>} />
+        <Route path="/login" element={<Login/>} />
       </Routes>
     </Router>
     
   );
 }
 
-export default Header;
+export default App;
