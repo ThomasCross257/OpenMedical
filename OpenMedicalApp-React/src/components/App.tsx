@@ -3,6 +3,7 @@ import { Link,  BrowserRouter  as Router, Route, Routes} from 'react-router-dom'
 import Homepage from '../pages/Homepage.tsx'
 import About from '../pages/About.tsx'
 import Login from './Login.tsx'
+import PatientDash from '../pages/patientDashboard.tsx'
 
 function App() {
   const [] = useState(0);
@@ -23,6 +24,9 @@ function App() {
               <Link to="/login" className="nav-link">Login</Link>
             </li>
             <li>
+              <Link to="/patientDashboard" className="nav-link">Patient Dashboard</Link>
+            </li>
+            <li>
               <a href ="https://github.com/ThomasCross257/CSE4050-Project" className="nav-link">Github</a>
             </li>
           </ul>
@@ -35,6 +39,7 @@ function App() {
         <Route path="/" element={<Homepage/>} />
         <Route path="/about" element={<About/>} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/patientDashboard" element={<PatientDash/>} />
       </Routes>
     </Router>
     
