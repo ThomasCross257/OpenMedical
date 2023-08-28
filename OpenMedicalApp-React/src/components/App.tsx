@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link,  BrowserRouter  as Router, Route, Routes} from 'react-router-dom';
-import Homepage from './Homepage.tsx'
-import About from './About.tsx'
+import Homepage from '../pages/Homepage.tsx'
+import About from '../pages/About.tsx'
 import Login from './Login.tsx'
 
 function App() {

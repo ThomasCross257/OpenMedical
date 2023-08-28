@@ -1,5 +1,5 @@
-import Homepage from './components/Homepage.tsx'
-import About from './components/About.tsx'
+import Homepage from './pages/Homepage.tsx'
+import About from './pages/About.tsx'
 import { Route, Routes } from 'react-router-dom';
 
 function pageRoutes() {
