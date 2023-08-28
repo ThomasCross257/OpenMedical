@@ -39,6 +39,7 @@ function AppointmentWidget() {
                 </li>
             </ul>
         </div>
+        <button className="btn btn-primary">View All</button>
     </div>
   );
 }

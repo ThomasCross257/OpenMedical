@@ -26,6 +26,7 @@ function RecordWidget() {
 
             </ul>
         </div>
+        <button className="btn btn-primary">View All</button>
     </div>
   );
 }

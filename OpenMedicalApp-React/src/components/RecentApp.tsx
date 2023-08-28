@@ -20,6 +20,7 @@ function RecentAppWidget() {
                     </div>
                 </li>
             </ul>
+            <button className="btn btn-primary">View All</button>
         </div>
     </div>
   );
