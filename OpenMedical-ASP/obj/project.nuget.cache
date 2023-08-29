@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "2g25pobfb78HNWw2jKV/+8V/SbgyJk+VraDK72SaTlX2QdGqKMHMNCfIWkAeNzF/KuoZ1IYekSYwN4e1Uf4D0Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Thomas Cross\\Documents\\SpeedReader\\CSE4050-Project\\OpenMedical-ASP\\OpenMedical-ASP.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Thomas Cross\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\Thomas Cross\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Thomas Cross\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\Thomas Cross\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\Thomas Cross\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\Thomas Cross\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
