@@ -4,6 +4,7 @@ import Homepage from '../pages/Homepage.tsx'
 import About from '../pages/About.tsx'
 import Login from './Login.tsx'
 import PatientDash from '../pages/patientDashboard.tsx'
+import Appointments from '../pages/Appointments.tsx'
 
 function App() {
   const [] = useState(0);
@@ -27,6 +28,9 @@ function App() {
               <Link to="/patientDashboard" className="nav-link">Patient Dashboard</Link>
             </li>
             <li>
+              <Link to="/Appointments" className="nav-link">Appointments</Link>
+            </li>
+            <li>
               <a href ="https://github.com/ThomasCross257/CSE4050-Project" className="nav-link">Github</a>
             </li>
           </ul>
@@ -40,6 +44,7 @@ function App() {
         <Route path="/about" element={<About/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/patientDashboard" element={<PatientDash/>} />
+        <Route path="/Appointments" element={<Appointments/>} />
       </Routes>
     </Router>
     
