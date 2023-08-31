@@ -1,57 +1,69 @@
-import { useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import { Bar } from 'react-chartjs-2';
+import React, {useState} from 'react';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import Modal from '../components/appointmentModal';
 
-function Appointments() {
-  // Sample data for the chart
-  const chartData = {
-    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    datasets: [
-      {
-        label: 'Appointments',
-        data: [15, 20, 18, 25, 22],
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-      },
-    ],
-  };
+const localizer = momentLocalizer(moment);
 
-  const chartOptions = {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  };
-
-  const [] = useState(0);
-
-  return (
-    <Container>
-      <Row>
-        <Col sm={12}>
-          <h1>Appointments</h1>
-          <p>This page displays the weekly appointment schedule.</p>
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={12} md={8}>
-          <div className="chart-container">
-            <Bar data={chartData} options={chartOptions} />
-          </div>
-        </Col>
-        <Col sm={12} md={4}>
-          <div className="appointment-list">
-            <h3>Upcoming Appointments</h3>
-            <ul>
-              <li>Patient: John Doe - Time: 10:00 AM</li>
-              <li>Patient: Jane Smith - Time: 2:30 PM</li>
-              <li>Patient: Alex Johnson - Time: 3:45 PM</li>
-            </ul>
-          </div>
-        </Col>
-      </Row>
-    </Container>
-  );
+interface Appointment {
+  title: string;
+  start: Date;
+  end: Date;
+  reason: string;
 }
 
-export default Appointments;
+// This will be filled by the backend in the future using an API call. - Thomas
+
+const appointments: Appointment[] = [
+  {
+    title: 'Meeting 1',
+    start: new Date(2023, 7, 25, 10, 0), // Pattern is Year, Month, Day, Hour, Minute
+    end: new Date(2023, 7, 25, 11, 0),
+    reason: 'Checkup',
+  },
+  {
+    title: 'Meeting 2',
+    start: new Date(2023, 7, 25, 14, 0),
+    end: new Date(2023, 7, 25, 15, 0),
+    reason: 'Checkup',
+  },
+];
+
+const CustomEvent: React.FC<any> = ({ event }) => {
+    const [showModal, setShowModal] = useState(false);
+  
+    const toggleModal = () => {
+      setShowModal(!showModal);
+    };
+  
+    return (
+      <div className="custom-event">
+        <a href="#" className="link-light" onClick={toggleModal}>
+          {event.title}
+        </a>
+        {showModal && <Modal onClose={toggleModal} />}
+      </div>
+    );
+  };
+
+const AppointmentCalendar: React.FC = () => {
+  return ( 
+    <div className="appointment-calendar">
+      <h1>Upcoming Appointments</h1>
+      <Calendar
+        localizer={localizer}
+        events={appointments}
+        startAccessor="start"
+        endAccessor="end"
+        components={{
+            event: CustomEvent,
+        }}
+        style={{ height: 500 }}
+      />
+    </div>
+  
+  );
+};
+
+export default AppointmentCalendar;

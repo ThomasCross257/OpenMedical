@@ -15,8 +15,10 @@
     "bootstrap-icons": "^1.10.5",
     "chart.js": "^4.4.0",
     "install": "^0.13.0",
+    "moment": "^2.29.4",
     "npm": "^9.8.1",
     "react": "^18.2.0",
+    "react-big-calendar": "^1.8.2",
     "react-bootstrap": "^2.8.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
@@ -24,6 +26,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
+    "@types/react-big-calendar": "^1.6.4",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
