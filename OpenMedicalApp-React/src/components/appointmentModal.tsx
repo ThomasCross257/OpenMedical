@@ -1,30 +1,33 @@
-import React from 'react';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+// Modal.tsx
+import ReactModal from 'react-modal';
 
 interface ModalProps {
-    onClose: () => void;
-  }
+  isOpen: boolean;
+  onRequestClose: () => void;
+  event: any // Replace 'Appointment' with your event type
+}
 
-const Modal: React.FC<ModalProps> = ({ onClose }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onRequestClose, event }) => {
   return (
-    <div className="modal" tabIndex={-1}>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Modal title</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <ReactModal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      contentLabel="Event Modal"
+    >
+      <div className="modal-dialog modal-fullscreen-sm-down">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">{event.title}</h5>
             </div>
-            <div className="modal-body">
-              <p>Modal body text goes here.</p>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary">Save changes</button>
-            </div>
+          <div className="modal-body">
+            <p>Start: {event.start.toLocaleString()}</p>
+            <p>End: {event.end.toLocaleString()}</p>
+            <p>Reason: {event.reason}</p>
+            <button className="btn btn-primary" onClick={onRequestClose}></button>
           </div>
-        </div>
-    </div>
-  
+          </div>
+      </div>
+    </ReactModal>
   );
 };
 

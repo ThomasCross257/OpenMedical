@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import Modal from '../components/appointmentModal';
+import AppointmentEvent from '../events/viewAppointment';
 
 const localizer = momentLocalizer(moment);
 
@@ -13,13 +13,11 @@ interface Appointment {
   reason: string;
 }
 
-// This will be filled by the backend in the future using an API call. - Thomas
-
 const appointments: Appointment[] = [
   {
     title: 'Meeting 1',
-    start: new Date(2023, 7, 25, 10, 0), // Pattern is Year, Month, Day, Hour, Minute
-    end: new Date(2023, 7, 25, 11, 0),
+    start: new Date(2023, 8, 25, 10, 0),
+    end: new Date(2023, 8, 25, 11, 0),
     reason: 'Checkup',
   },
   {
@@ -30,25 +28,9 @@ const appointments: Appointment[] = [
   },
 ];
 
-const CustomEvent: React.FC<any> = ({ event }) => {
-    const [showModal, setShowModal] = useState(false);
-  
-    const toggleModal = () => {
-      setShowModal(!showModal);
-    };
-  
-    return (
-      <div className="custom-event">
-        <a href="#" className="link-light" onClick={toggleModal}>
-          {event.title}
-        </a>
-        {showModal && <Modal onClose={toggleModal} />}
-      </div>
-    );
-  };
 
 const AppointmentCalendar: React.FC = () => {
-  return ( 
+  return (
     <div className="appointment-calendar">
       <h1>Upcoming Appointments</h1>
       <Calendar
@@ -57,12 +39,11 @@ const AppointmentCalendar: React.FC = () => {
         startAccessor="start"
         endAccessor="end"
         components={{
-            event: CustomEvent,
+          event: AppointmentEvent,
         }}
         style={{ height: 500 }}
       />
     </div>
-  
   );
 };
 
