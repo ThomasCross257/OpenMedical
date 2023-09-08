@@ -11,6 +11,7 @@ interface Appointment {
   start: Date;
   end: Date;
   reason: string;
+  status: string;
 }
 
 const appointments: Appointment[] = [
@@ -19,12 +20,14 @@ const appointments: Appointment[] = [
     start: new Date(2023, 8, 25, 10, 0),
     end: new Date(2023, 8, 25, 11, 0),
     reason: 'Checkup',
+    status: 'Pending',
   },
   {
     title: 'Meeting 2',
     start: new Date(2023, 7, 25, 14, 0),
     end: new Date(2023, 7, 25, 15, 0),
     reason: 'Checkup',
+    status: 'Complete',
   },
 ];
 
