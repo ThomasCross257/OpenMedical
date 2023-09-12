@@ -33,7 +33,7 @@ var appointments: Appointment[] = [ // Var will only be for testing purposes. Th
   },
 ];
 
-const addAppointment = () => {
+const addAppointment = () => { // Currently only a test. Works in the console, however it doesn't display on the calendar in real time. Keep for future use.
   const startTime = new Date(); // Current time
   const endTime = new Date(startTime);
   endTime.setHours(startTime.getHours() + 1); // Set end time 1 hour later
