@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 import DoctorMedicalDocuments from '../components/doctorMedicalDash.tsx';
-import PatientMedicalDocuments from '../components/patientMedicalDash.tsx';
+import PatientMedicalDocuments from '../components/dashboard/patientMedicalDash.tsx';
 
 const DocumentPortal = () => {
     const [isDoctor, setIsDoctor] = useState(false);
