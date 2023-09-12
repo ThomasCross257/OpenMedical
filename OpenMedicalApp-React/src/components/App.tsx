@@ -5,6 +5,7 @@ import About from '../pages/About.tsx'
 import Login from './Login.tsx'
 import PatientDash from '../pages/patientDashboard.tsx'
 import Appointments from '../pages/Appointments.tsx'
+import DocumentPortal from '../pages/DocumentPortal.tsx';
 
 function App() {
   const [] = useState(0);
@@ -45,6 +46,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/patientDashboard" element={<PatientDash/>} />
         <Route path="/Appointments" element={<Appointments/>} />
+        <Route path="/DocumentPortal" element={<DocumentPortal/>} />
       </Routes>
     </Router>
     

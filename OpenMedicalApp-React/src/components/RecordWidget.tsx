@@ -1,7 +1,12 @@
 // Display Patient version of OpenPortal
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function RecordWidget() {
+    const navigate = useNavigate();
+    const navigateTo = () => {
+        navigate('/DocumentPortal');
+    }
   const [] = useState(0);
   return (
     <div className="card RecentAppointmentWidget mt-5">
@@ -26,7 +31,7 @@ function RecordWidget() {
 
             </ul>
         </div>
-        <button className="btn btn-primary">View All</button>
+        <button className="btn btn-primary" onClick={()=>navigateTo()}>View All</button>
     </div>
   );
 }
