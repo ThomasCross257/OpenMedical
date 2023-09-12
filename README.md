@@ -46,11 +46,11 @@ npm run dev
     <li>About: 95%</li>
     <li>Login: 23%</li>
     <li>Register: 23%</li>
-    <li>Dashboard: 10%</li>
-    <li>Appointment Management: 0%</li>
-    <li>Medical Record Management: 0%</li>
+    <li>Dashboard: 20%</li>
+    <li>Appointment Management: 50%</li>
+    <li>Medical Record Management: 10%</li>
     <li>Medical Prescription Management: 0%</li>
-    <li>Medical Result Vewing and Management: 0%</li>
+    <li>Medical Result Vewing and Management: 25%</li>
 </ul>
 
 ### 3.2. Backend
