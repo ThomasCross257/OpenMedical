@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import DocumentUpload from '../uploadDoc';
 
 const DoctorMedicalDocuments = () => {
   const [patients, setPatients] = useState([
@@ -25,6 +26,7 @@ const DoctorMedicalDocuments = () => {
     },
   ]);
 
+  const [documents, uploadDocuments] = useState(false);
 // Will add these as structures to the database later.
 
   return (
@@ -59,8 +61,11 @@ const DoctorMedicalDocuments = () => {
               ))}
             </tbody>
           </table>
-          <button className="btn btn-primary">Add Document</button>
+          <button className="btn btn-primary"
+          onClick={() => uploadDocuments(true)}
+          >Add Document</button>
           <button className="btn btn-info">View All Records</button>
+          {documents ? <DocumentUpload /> : null}
         </div>
       ))}
     </div>

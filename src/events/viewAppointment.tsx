@@ -1,6 +1,6 @@
 // CustomEvent.tsx
 import React, { useState } from 'react';
-import Modal from '../components/appointmentModal';
+import Modal from '../components/appointments/appointmentModal';
 const AppointmentEvent: React.FC<any> = ({ event }) => {
     const [showModal, setShowModal] = useState(false);
   

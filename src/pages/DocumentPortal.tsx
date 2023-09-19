@@ -1,8 +1,8 @@
 // Display Patient version of OpenPortal
 import { useState } from 'react';
 
-import DoctorMedicalDocuments from '../components/doctorMedicalDash.tsx';
-import PatientMedicalDocuments from '../components/dashboard/patientMedicalDash.tsx';
+import DoctorMedicalDocuments from '../components/dashboard/doctorDocPortal.tsx';
+import PatientMedicalDocuments from '../components/dashboard/patientDocPortal.tsx';
 
 const DocumentPortal = () => {
     const [isDoctor, setIsDoctor] = useState(false);
