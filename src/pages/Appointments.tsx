@@ -53,7 +53,6 @@ const addAppointment = () => { // Currently only a test. Works in the console, h
 
 const AppointmentCalendar: React.FC = () => {
   return (
-    
     <div className="appointment-calendar">
       <h1>Upcoming Appointments</h1>
       <button className="btn btn-success" onClick={addAppointment} >Add Appointment</button>
