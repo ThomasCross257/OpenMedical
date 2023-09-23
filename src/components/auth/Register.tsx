@@ -15,10 +15,6 @@ function Register() {
                 <input type="text" className="form-control" id="InputLName" aria-describedby="emailHelp"/>
             </div>
             <div className="mb-3">
-              <label htmlFor="InputID" className="form-label">Portal ID</label>
-              <input type="text" className="form-control" id="InputID" aria-describedby="emailHelp"/>
-            </div>
-            <div className="mb-3">
                 <label htmlFor="InputEmail" className="form-label">Email address</label>
                 <input type="email" className="form-control" id="InputEmail" aria-describedby="emailHelp"/>
             </div>
@@ -26,8 +22,7 @@ function Register() {
               <label htmlFor="InputPassword" className="form-label">Password</label>
               <input type="password" className="form-control" id="exampleInputPassword1"/>
             </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
-            <button type ="submit" className="btn btn-secondary">Forgot Password</button>
+            <button type="submit" className="btn btn-success">Submit</button>
         </form>
     </div>
   );

@@ -1,7 +1,7 @@
 // Display Patient version of OpenPortal
 import { useState } from 'react';
-import AppointmentWidget from '../components/UpcomingAppointment.tsx'
-import RecentAppWidget from '../components/appointments/RecentApp.tsx'
+import AppointmentWidget from '../components/dashboard/AppointmentWidget.tsx'
+import RecentAppWidget from '../components/dashboard/RecentAppWidget.tsx'
 import RecordWidget from '../components/dashboard/RecordWidget.tsx'
 function PatientDash() {
   const [isDoctor , setIsDoctor] = useState(false);

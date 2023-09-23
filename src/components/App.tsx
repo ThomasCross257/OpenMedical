@@ -7,6 +7,8 @@ import PatientDash from '../pages/Dashboard.tsx';
 import Appointments from '../pages/Appointments.tsx';
 import DocumentPortal from '../pages/DocumentPortal.tsx';
 import PrescriptionPage from '../pages/Prescriptions.tsx';
+import PreviousAppointments from '../pages/PreviousAppointments.tsx';
+import ViewAllRecords from '../pages/AllRecords.tsx';
 
 
 function App() {
@@ -14,7 +16,7 @@ function App() {
 
   return (
     <Router>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand">OpenMedical</Link>
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
@@ -40,6 +42,12 @@ function App() {
               <Link to="/prescriptions" className="nav-link">Prescriptions</Link>
             </li>
             <li>
+              <Link to="/previousAppointments" className="nav-link">Previous Appointments</Link>
+            </li>
+            <li>
+              <Link to="/allPatientRecords" className="nav-link">All Patient Records</Link>
+            </li>
+            <li>
               <a href ="https://github.com/ThomasCross257/CSE4050-Project" className="nav-link">Github</a>
             </li>
           </ul>
@@ -56,6 +64,8 @@ function App() {
         <Route path="/Appointments" element={<Appointments/>} />
         <Route path="/DocumentPortal" element={<DocumentPortal/>} />
         <Route path="/prescriptions" element = {<PrescriptionPage/>} />
+        <Route path="/previousAppointments" element = {<PreviousAppointments/>} />
+        <Route path="/allPatientRecords" element = {<ViewAllRecords/>} />
       </Routes>
     </Router>
     

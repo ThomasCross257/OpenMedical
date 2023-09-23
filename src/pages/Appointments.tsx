@@ -53,9 +53,11 @@ const addAppointment = () => { // Currently only a test. Works in the console, h
 
 const AppointmentCalendar: React.FC = () => {
   return (
-    <div className="appointment-calendar">
-      <h1>Upcoming Appointments</h1>
-      <button className="btn btn-success" onClick={addAppointment} >Add Appointment</button>
+    <div className="appointment-calendar">  
+      <div className="d-flex justify-content-between">
+        <h1>Upcoming Appointments</h1>
+        <button className="btn btn-success" onClick={addAppointment} >Add Appointment</button>
+      </div>
       <br/>
       <Calendar
         localizer={localizer}

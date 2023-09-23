@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import DocumentUpload from '../uploadDoc';
+import { useNavigate } from 'react-router-dom';
 
 const DoctorMedicalDocuments = () => {
   const [patients, setPatients] = useState([
@@ -28,6 +29,11 @@ const DoctorMedicalDocuments = () => {
 
   const [documents, uploadDocuments] = useState(false);
 // Will add these as structures to the database later.
+
+  const navigate = useNavigate();
+  const toRecords = () => {
+    navigate('/allPatientRecords');
+  };
 
   return (
     <div className="container">
@@ -64,7 +70,8 @@ const DoctorMedicalDocuments = () => {
           <button className="btn btn-primary"
           onClick={() => uploadDocuments(true)}
           >Add Document</button>
-          <button className="btn btn-info">View All Records</button>
+          <button className="btn btn-info"
+          onClick={toRecords}>View All Records</button>
           {documents ? <DocumentUpload /> : null}
         </div>
       ))}
