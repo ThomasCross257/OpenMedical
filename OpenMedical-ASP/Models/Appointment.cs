@@ -1,13 +1,22 @@
-﻿namespace OpenMedical_ASP.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+public class Appointment
 {
-    public class Appointment
-    {
-        private int Id { get; set; }
-        public string Patient { get; set; }
-        public string Doctor { get; set; }
-        public string Date { get; set; }
-        public string Time { get; set; }
-        public string Reason { get; set; }
-        public string Status { get; set; }
-    }
+    public int AppointmentID { get; set; }
+
+    public int PatientID { get; set; }
+    public int DoctorID { get; set; }
+
+    public DateTime AppointmentDateTime { get; set; }
+
+    [StringLength(20)]
+    public string AppointmentType { get; set; }
+
+    [StringLength(20)]
+    public string Status { get; set; }
+
+    // Navigation properties
+    public Patient Patient { get; set; }
+    public Doctor Doctor { get; set; }
 }

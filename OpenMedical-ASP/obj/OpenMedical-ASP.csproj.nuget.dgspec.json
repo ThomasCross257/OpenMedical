@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Thomas Cross\\Documents\\SpeedReader\\CSE4050-Project\\OpenMedical-ASP\\OpenMedical-ASP.csproj": {}
+    "D:\\Program Files (x86)\\Users\\Mike Rowe Soft\\Documents\\CSE 4050\\CSE4050-Project\\OpenMedical-ASP\\OpenMedical-ASP.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Thomas Cross\\Documents\\SpeedReader\\CSE4050-Project\\OpenMedical-ASP\\OpenMedical-ASP.csproj": {
+    "D:\\Program Files (x86)\\Users\\Mike Rowe Soft\\Documents\\CSE 4050\\CSE4050-Project\\OpenMedical-ASP\\OpenMedical-ASP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Thomas Cross\\Documents\\SpeedReader\\CSE4050-Project\\OpenMedical-ASP\\OpenMedical-ASP.csproj",
+        "projectUniqueName": "D:\\Program Files (x86)\\Users\\Mike Rowe Soft\\Documents\\CSE 4050\\CSE4050-Project\\OpenMedical-ASP\\OpenMedical-ASP.csproj",
         "projectName": "OpenMedical-ASP",
-        "projectPath": "C:\\Users\\Thomas Cross\\Documents\\SpeedReader\\CSE4050-Project\\OpenMedical-ASP\\OpenMedical-ASP.csproj",
-        "packagesPath": "C:\\Users\\Thomas Cross\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Thomas Cross\\Documents\\SpeedReader\\CSE4050-Project\\OpenMedical-ASP\\obj\\",
+        "projectPath": "D:\\Program Files (x86)\\Users\\Mike Rowe Soft\\Documents\\CSE 4050\\CSE4050-Project\\OpenMedical-ASP\\OpenMedical-ASP.csproj",
+        "packagesPath": "C:\\Users\\Mike Rowe Soft\\.nuget\\packages\\",
+        "outputPath": "D:\\Program Files (x86)\\Users\\Mike Rowe Soft\\Documents\\CSE 4050\\CSE4050-Project\\OpenMedical-ASP\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Thomas Cross\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Mike Rowe Soft\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -44,6 +44,14 @@
               "target": "Package",
               "version": "[4.1.2, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
             "ServiceStack": {
               "target": "Package",
               "version": "[6.10.0, )"
@@ -64,6 +72,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.22, 6.0.22]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[6.0.22, 6.0.22]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.22, 6.0.22]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.22, 6.0.22]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -72,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

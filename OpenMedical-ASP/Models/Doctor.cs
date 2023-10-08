@@ -1,12 +1,36 @@
-﻿namespace OpenMedical_ASP.Models
+﻿using OpenMedical_ASP.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+public class Doctor
 {
-    public class Doctor
-    {
-        public int Id { get; set; }
-        public string Fname { get; set; }
-        public string Lname { get; set; }
-        private string Password { get; set; }
-        public string Email { get; set; }
-        public string Role { get; set; }
-    }
+    public int DoctorID { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string FirstName { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string LastName { get; set; }
+
+    [StringLength(100)]
+    public string Specialty { get; set; }
+
+    [StringLength(20)]
+    public string ContactNumber { get; set; }
+
+    [Required]
+    [StringLength(100)]
+    public string Email { get; set; }
+
+    [Required]
+    [StringLength(30)]
+    public string Password { get; set; }
+
+    // Navigation properties
+    public List<Appointment> Appointments { get; set; }
+    public List<MedicalRecord> MedicalRecords { get; set; }
+    public List<Prescription> Prescriptions { get; set; }
 }
