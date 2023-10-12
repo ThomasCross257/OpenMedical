@@ -19,4 +19,5 @@ public class MedicalRecord
     // Navigation properties
     public Patient Patient { get; set; }
     public Doctor Doctor { get; set; }
+    public object MedicalRecordsId { get; internal set; }
 }

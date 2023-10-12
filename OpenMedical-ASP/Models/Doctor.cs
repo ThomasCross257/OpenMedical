@@ -30,7 +30,8 @@ public class Doctor
     public string Password { get; set; }
 
     // Navigation properties
-    public List<Appointment> Appointments { get; set; }
-    public List<MedicalRecord> MedicalRecords { get; set; }
-    public List<Prescription> Prescriptions { get; set; }
+    public List<Appointment>? Appointments { get; set; }
+    public List<MedicalRecord>? MedicalRecords { get; set; }
+    public List<Prescription>? Prescriptions { get; set; }
+    public ICollection<PatientDoctor>? PatientDoctors { get; set; }
 }

@@ -32,8 +32,8 @@ namespace OpenMedical_ASP
             {
                 routes.EnableEndpointRouting = false;
             });
-            services.AddScoped<DoctorRepository, DoctorRepository>();
-            services.AddScoped<PatientRepository, PatientRepository>();
+            services.AddScoped<IDoctorRepository, DoctorRepository>();
+            services.AddScoped<IPatientRepository, PatientRepository>();
             // Add other services as needed
 
             // Add controllers and enable API versioning if needed
