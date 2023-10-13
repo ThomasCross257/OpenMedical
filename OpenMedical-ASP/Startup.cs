@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 using OpenMedical_ASP;
 using OpenMedical_ASP.Models; // Replace with the actual namespace of your models
 using OpenMedical_ASP.Repositories; // Replace with the actual namespace of your repositories
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace OpenMedical_ASP
 {
@@ -84,7 +85,8 @@ namespace OpenMedical_ASP
                 endpoints.MapControllers();
             });
 
-            // Configure other middleware or settings as needed
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            Console.WriteLine($"Connection String: {connectionString}");
         }
     }
 }

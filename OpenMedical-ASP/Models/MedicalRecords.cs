@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 public class MedicalRecord
 {
+    [Key]
     public int RecordID { get; set; }
 
     public int PatientID { get; set; }
@@ -19,5 +20,4 @@ public class MedicalRecord
     // Navigation properties
     public Patient Patient { get; set; }
     public Doctor Doctor { get; set; }
-    public object MedicalRecordsId { get; internal set; }
 }

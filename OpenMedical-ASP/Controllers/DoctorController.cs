@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OpenMedical_ASP;
+using OpenMedical_ASP.Models;
 using OpenMedical_ASP.Repositories;
 
 [ApiController]

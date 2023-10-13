@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenMedical_ASP.Models
 {
-    public class PatientDoctor
+    public class patientOf
     {
         public int PatientID { get; set; }
         public Patient Patient { get; set; }

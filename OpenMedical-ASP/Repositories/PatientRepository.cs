@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OpenMedical_ASP.Models;
 
 namespace OpenMedical_ASP.Repositories
 {

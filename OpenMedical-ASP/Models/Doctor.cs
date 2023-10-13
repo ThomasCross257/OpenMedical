@@ -2,9 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+[Table("Doctor")]
 public class Doctor
 {
+    [Key]
     public int DoctorID { get; set; }
 
     [Required]
@@ -33,5 +36,5 @@ public class Doctor
     public List<Appointment>? Appointments { get; set; }
     public List<MedicalRecord>? MedicalRecords { get; set; }
     public List<Prescription>? Prescriptions { get; set; }
-    public ICollection<PatientDoctor>? PatientDoctors { get; set; }
+    public ICollection<patientOf>? patientOf { get; set; }
 }

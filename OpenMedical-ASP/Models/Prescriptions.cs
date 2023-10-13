@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 public class Prescription
 {
+    [Key]
     public int PrescriptionID { get; set; }
 
     public int PatientID { get; set; }

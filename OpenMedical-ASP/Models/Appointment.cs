@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 public class Appointment
 {
+    [Key]
     public int AppointmentID { get; set; }
 
     public int PatientID { get; set; }

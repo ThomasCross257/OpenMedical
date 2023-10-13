@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 public class Patient
 {
+    [Key]
     public int PatientID { get; set; }
 
     [Required]
@@ -38,5 +39,5 @@ public class Patient
     public List<Appointment>? Appointments { get; set; }
     public List<MedicalRecord>? MedicalRecords { get; set; }
     public List<Prescription>? Prescriptions { get; set; }
-    public ICollection<PatientDoctor>? PatientDoctors { get; set; }
+    public ICollection<patientOf>? patientOf { get; set; }
 }
