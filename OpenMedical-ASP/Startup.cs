@@ -84,9 +84,6 @@ namespace OpenMedical_ASP
             {
                 endpoints.MapControllers();
             });
-
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            Console.WriteLine($"Connection String: {connectionString}");
         }
     }
 }
