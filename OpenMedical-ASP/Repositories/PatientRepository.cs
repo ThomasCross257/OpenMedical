@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OpenMedical_ASP.Models;
+using OpenMedical_Structs;
 
 namespace OpenMedical_ASP.Repositories
 {
     public interface IPatientRepository
     {
         Task<IEnumerable<Patient>> GetAllPatientsAsync();
-        Task<Patient> GetByIdAsync(int id);
+        Task<Patient> GetPatientById(int id);
         Task AddPatientAsync(Patient patient);
         Task UpdatePatientAsync(Patient patient);
         Task DeletePatientAsync(Patient patient);
         Task DeletePatientAsync(int id);
+        Task<Patient> GetPatientByEmail(string email);
     }
     public class PatientRepository : IPatientRepository
     {
@@ -23,7 +24,7 @@ namespace OpenMedical_ASP.Repositories
         {
             return await _context.Patients.ToListAsync();
         }
-        public async Task<Patient> GetByIdAsync(int id)
+        public async Task<Patient> GetPatientById(int id)
         {
             return await _context.Patients.FindAsync(id);
         }
@@ -44,8 +45,12 @@ namespace OpenMedical_ASP.Repositories
         }
         public async Task DeletePatientAsync(int id)
         {
-            var patient = await GetByIdAsync(id);
+            var patient = await GetPatientById(id);
             await DeletePatientAsync(patient);
+        }
+        public async Task<Patient> GetPatientByEmail(string email)
+        {
+            return await _context.Patients.FindAsync(email);
         }
     }   
 }

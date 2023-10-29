@@ -3,7 +3,6 @@ D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\O
 D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\obj\Debug\net6.0\OpenMedical-ASP.AssemblyInfoInputs.cache
 D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\obj\Debug\net6.0\OpenMedical-ASP.AssemblyInfo.cs
 D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\obj\Debug\net6.0\OpenMedical-ASP.csproj.CoreCompileInputs.cache
-D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\obj\Debug\net6.0\OpenMedical-ASP.MvcApplicationPartsAssemblyInfo.cs
 D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\obj\Debug\net6.0\OpenMedical-ASP.MvcApplicationPartsAssemblyInfo.cache
 D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\bin\Debug\net6.0\appsettings.Development.json
 D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\bin\Debug\net6.0\appsettings.json
@@ -87,3 +86,10 @@ D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\O
 D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\obj\Debug\net6.0\OpenMedical-ASP.pdb
 D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\obj\Debug\net6.0\OpenMedical-ASP.genruntimeconfig.cache
 D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\obj\Debug\net6.0\ref\OpenMedical-ASP.dll
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\bin\Debug\net6.0\BCrypt.Net-Next.dll
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\bin\Debug\net6.0\OpenMedical-Structs.dll
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\bin\Debug\net6.0\OpenMedical-Structs.pdb
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\obj\Debug\net6.0\OpenMedical-ASP.MvcApplicationPartsAssemblyInfo.cs
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-ASP\bin\Debug\net6.0\AutoMapper.dll

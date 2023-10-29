@@ -1,0 +1,12 @@
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-Structs\obj\Debug\net6.0\OpenMedical-Structs.GeneratedMSBuildEditorConfig.editorconfig
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-Structs\obj\Debug\net6.0\OpenMedical-Structs.AssemblyInfoInputs.cache
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-Structs\obj\Debug\net6.0\OpenMedical-Structs.AssemblyInfo.cs
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-Structs\obj\Debug\net6.0\OpenMedical-Structs.csproj.CoreCompileInputs.cache
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-Structs\bin\Debug\net6.0\OpenMedical-Structs.deps.json
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-Structs\bin\Debug\net6.0\OpenMedical-Structs.dll
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-Structs\bin\Debug\net6.0\OpenMedical-Structs.pdb
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-Structs\obj\Debug\net6.0\OpenMedical-Structs.dll
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-Structs\obj\Debug\net6.0\refint\OpenMedical-Structs.dll
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-Structs\obj\Debug\net6.0\OpenMedical-Structs.pdb
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-Structs\obj\Debug\net6.0\ref\OpenMedical-Structs.dll
+D:\Program Files (x86)\Users\Mike Rowe Soft\Documents\CSE 4050\CSE4050-Project\OpenMedical-Structs\obj\Debug\net6.0\OpenMedical-Structs.csproj.AssemblyReference.cache

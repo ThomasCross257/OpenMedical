@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using OpenMedical_ASP;
-using OpenMedical_ASP.Models; // Replace with the actual namespace of your models
+using OpenMedical_Structs; // Replace with the actual namespace of your models
 using OpenMedical_ASP.Repositories; // Replace with the actual namespace of your repositories
 using Microsoft.EntityFrameworkCore.Query;
 

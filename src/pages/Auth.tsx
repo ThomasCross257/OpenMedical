@@ -7,13 +7,11 @@ function Auth() {
 
   return (
     <div className="container">
-      <form>
-        {login ? <Login/> : <Register/>}
-        <br/>
-        <button type = "button" className="btn btn-primary" onClick={() => isLogin(!login)}>
-            {login ? "Don't have an account? Register" : 'Already Have An Account? Login'}    
-        </button>
-      </form>
+      {login ? <Login /> : <Register />}
+      <br />
+      <button type="button" className="btn btn-primary" onClick={() => isLogin(!login)}>
+        {login ? "Don't have an account? Register" : 'Already Have An Account? Login'}
+      </button>
     </div>
   );
 }

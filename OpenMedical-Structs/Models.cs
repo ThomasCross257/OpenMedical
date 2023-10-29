@@ -1,4 +1,5 @@
-﻿namespace OpenMedical_ASP.Models
+﻿namespace OpenMedical_Structs
+
 {
     public class Models
     {

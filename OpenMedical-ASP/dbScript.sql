@@ -1,6 +1,7 @@
 -- Create the Patients table
 CREATE TABLE Patients (
   PatientID INT PRIMARY KEY IDENTITY(1,1),
+  UserID VARCHAR(50),
   FirstName VARCHAR(50) NOT NULL,
   LastName VARCHAR(50) NOT NULL,
   DateOfBirth DATE,
@@ -8,12 +9,16 @@ CREATE TABLE Patients (
   ContactNumber VARCHAR(20),
   Email VARCHAR(100),
   Address VARCHAR(255),
+  ZipCode VARCHAR(10),
+  State VARCHAR(50),
+  City VARCHAR(50),
   Password VARCHAR(30)
 );
 
 -- Create the Doctors table
 CREATE TABLE Doctors (
   DoctorID INT PRIMARY KEY IDENTITY(1,1),
+  UserID VARCHAR(50),
   FirstName VARCHAR(50) NOT NULL,
   LastName VARCHAR(50) NOT NULL,
   Specialty VARCHAR(100),
@@ -69,18 +74,18 @@ VALUES
   ('Dr. Robert', 'Wilson', 'Orthopedic Surgeon', '888-888-8888', 'dr.robert@example.com', 'openABCDEF');
 
 -- Insert 10 patients
-INSERT INTO Patients (FirstName, LastName, DateOfBirth, Gender, ContactNumber, Email, Address, Password)
+INSERT INTO Patients (FirstName, LastName, DateOfBirth, Gender, ContactNumber, Email, Address, Password, ZipCode, State, City)
 VALUES
-  ('John', 'Doe', '1990-03-15', 'M', '111-222-3333', 'john.doe@example.com', '123 Main St', 'openABCDEF'),
-  ('Jane', 'Smith', '1985-07-20', 'F', '444-555-6666', 'jane.smith@example.com', '456 Elm St', 'openABCDEF'),
-  ('David', 'Johnson', '2000-01-10', 'M', '777-888-9999', 'david.johnson@example.com', '789 Oak St', 'openABCDEF'),
-  ('Emily', 'Brown', '1995-11-25', 'F', '222-333-4444', 'emily.brown@example.com', '101 Pine St', 'openABCDEF'),
-  ('Michael', 'Lee', '1980-09-03', 'M', '999-888-7777', 'michael.lee@example.com', '555 Maple St', 'openABCDEF'),
-  ('Sarah', 'Garcia', '1992-04-30', 'F', '666-555-4444', 'sarah.garcia@example.com', '222 Birch St', 'openABCDEF'),
-  ('William', 'Harris', '1987-08-12', 'M', '333-222-1111', 'william.harris@example.com', '789 Cedar St', 'openABCDEF'),
-  ('Olivia', 'Anderson', '2002-02-18', 'F', '111-999-8888', 'olivia.anderson@example.com', '303 Walnut St', 'openABCDEF'),
-  ('James', 'Martinez', '1975-06-05', 'M', '444-666-8888', 'james.martinez@example.com', '888 Redwood St', 'openABCDEF'),
-  ('Sophia', 'Wilson', '1998-12-20', 'F', '555-444-3333', 'sophia.wilson@example.com', '404 Oakwood St', 'openABCDEF');
+  ('John', 'Doe', '1990-03-15', 'M', '111-222-3333', 'john.doe@example.com', '123 Main St', 'openABCDEF', '12345', 'California', 'Los Angeles'),
+  ('Jane', 'Smith', '1985-07-20', 'F', '444-555-6666', 'jane.smith@example.com', '456 Elm St', 'openABCDEF', '67890', 'New York', 'New York'),
+  ('David', 'Johnson', '2000-01-10', 'M', '777-888-9999', 'david.johnson@example.com', '789 Oak St', 'openABCDEF', '12345', 'Florida', 'Miami'),
+  ('Emily', 'Brown', '1995-11-25', 'F', '222-333-4444', 'emily.brown@example.com', '101 Pine St', 'openABCDEF', '67890', 'California', 'San Francisco'),
+  ('Michael', 'Lee', '1980-09-03', 'M', '999-888-7777', 'michael.lee@example.com', '555 Maple St', 'openABCDEF', '12345', 'Florida', 'Orlando'),
+  ('Sarah', 'Garcia', '1992-04-30', 'F', '666-555-4444', 'sarah.garcia@example.com', '222 Birch St', 'openABCDEF', '67890', 'Texas', 'Houston'),
+  ('William', 'Harris', '1987-08-12', 'M', '333-222-1111', 'william.harris@example.com', '789 Cedar St', 'openABCDEF', '12345', 'California', 'San Diego'),
+  ('Olivia', 'Anderson', '2002-02-18', 'F', '111-999-8888', 'olivia.anderson@example.com', '303 Walnut St', 'openABCDEF', '67890', 'Texas', 'Austin'),
+  ('James', 'Martinez', '1975-06-05', 'M', '444-666-8888', 'james.martinez@example.com', '888 Redwood St', 'openABCDEF', '12345', 'Florida', 'Tampa'),
+  ('Sophia', 'Wilson', '1998-12-20', 'F', '555-444-3333', 'sophia.wilson@example.com', '404 Oakwood St', 'openABCDEF', '67890', 'New York', 'Buffalo');
 
 -- Create relationships between patients and doctors (each doctor with 2 patients)
 -- Doctor 1

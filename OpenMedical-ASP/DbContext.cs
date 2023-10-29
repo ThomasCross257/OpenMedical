@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OpenMedical_Structs;
 
-namespace OpenMedical_ASP.Models
-{
+
     public class OpenMedicalDBContext : DbContext
     {
         public OpenMedicalDBContext(DbContextOptions<OpenMedicalDBContext> options)
@@ -11,25 +11,17 @@ namespace OpenMedical_ASP.Models
 
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Patient> Patients { get; set; }
+        public DbSet<PatientRegister> PatientRegister { get; set; } // Define this but not DoctorRegister?
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
+        public DbSet<patientOf> patientOf { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Doctor>().ToTable("Doctors");
+            modelBuilder.Entity<Patient>().ToTable("Patients");
             modelBuilder.Entity<patientOf>()
-                .HasKey(pd => new { pd.PatientID, pd.DoctorID });
-
-            modelBuilder.Entity<patientOf>()
-                .HasOne(pd => pd.Patient)
-                .WithMany(p => p.patientOf)
-                .HasForeignKey(pd => pd.PatientID);
-
-            modelBuilder.Entity<patientOf>()
-                .HasOne(pd => pd.Doctor)
-                .WithMany(d => d.patientOf)
-                .HasForeignKey(pd => pd.DoctorID);
+                .HasKey(pd => new { pd.PatientID, pd.DoctorID }); // Configure the relations between Patient and Doctor
         }
     }
-}

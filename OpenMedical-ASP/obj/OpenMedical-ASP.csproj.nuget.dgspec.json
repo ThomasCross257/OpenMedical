@@ -27,7 +27,11 @@
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\Program Files (x86)\\Users\\Mike Rowe Soft\\Documents\\CSE 4050\\CSE4050-Project\\OpenMedical-Structs\\OpenMedical-Structs.csproj": {
+                "projectPath": "D:\\Program Files (x86)\\Users\\Mike Rowe Soft\\Documents\\CSE 4050\\CSE4050-Project\\OpenMedical-Structs\\OpenMedical-Structs.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -40,6 +44,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "IdentityServer4": {
               "target": "Package",
               "version": "[4.1.2, )"
@@ -75,19 +87,19 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.23, 6.0.23]"
+              "version": "[6.0.24, 6.0.24]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.23, 6.0.23]"
+              "version": "[6.0.24, 6.0.24]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.23, 6.0.23]"
+              "version": "[6.0.24, 6.0.24]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.23, 6.0.23]"
+              "version": "[6.0.24, 6.0.24]"
             }
           ],
           "frameworkReferences": {
@@ -98,7 +110,82 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Program Files (x86)\\Users\\Mike Rowe Soft\\Documents\\CSE 4050\\CSE4050-Project\\OpenMedical-Structs\\OpenMedical-Structs.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Program Files (x86)\\Users\\Mike Rowe Soft\\Documents\\CSE 4050\\CSE4050-Project\\OpenMedical-Structs\\OpenMedical-Structs.csproj",
+        "projectName": "OpenMedical-Structs",
+        "projectPath": "D:\\Program Files (x86)\\Users\\Mike Rowe Soft\\Documents\\CSE 4050\\CSE4050-Project\\OpenMedical-Structs\\OpenMedical-Structs.csproj",
+        "packagesPath": "C:\\Users\\Mike Rowe Soft\\.nuget\\packages\\",
+        "outputPath": "D:\\Program Files (x86)\\Users\\Mike Rowe Soft\\Documents\\CSE 4050\\CSE4050-Project\\OpenMedical-Structs\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Mike Rowe Soft\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.24, 6.0.24]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.24, 6.0.24]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.24, 6.0.24]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }
