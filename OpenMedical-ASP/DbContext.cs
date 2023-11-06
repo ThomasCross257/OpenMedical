@@ -11,7 +11,6 @@ using OpenMedical_Structs;
 
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Patient> Patients { get; set; }
-        public DbSet<PatientRegister> PatientRegister { get; set; } // Define this but not DoctorRegister?
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
@@ -22,6 +21,6 @@ using OpenMedical_Structs;
             modelBuilder.Entity<Doctor>().ToTable("Doctors");
             modelBuilder.Entity<Patient>().ToTable("Patients");
             modelBuilder.Entity<patientOf>()
-                .HasKey(pd => new { pd.PatientID, pd.DoctorID }); // Configure the relations between Patient and Doctor
+                .HasKey(pd => new { pd.PatientID, pd.DoctorID }); // Configure the relations between Patient and 
         }
     }

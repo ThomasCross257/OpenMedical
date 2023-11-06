@@ -39,12 +39,7 @@ namespace OpenMedical_Structs
 
         [StringLength(50)]
         public string State { get; set; }
-    }
-    [NotMapped]
-    public class PatientRegister : Patient
-    {
-        [Required]
-        [StringLength(30)]
+        [BindNever]
         public string Password { get; set; }
     }
 }

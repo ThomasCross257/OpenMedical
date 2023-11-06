@@ -23,6 +23,10 @@ public class DoctorsController : ControllerBase
     public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctors()
     {
         var Doctors = await _context.Doctors.ToListAsync();
+        foreach (var Doctor in Doctors)
+        {
+            Doctor.Password = "Unauthorized";
+        }
         return Ok(Doctors);
     }
 
@@ -35,6 +39,7 @@ public class DoctorsController : ControllerBase
         {
             return NotFound();
         }
+        Doctor.Password = "Unauthorized";
         return Ok(Doctor);
     }
     // Get patients of a doctor by their ID
@@ -47,7 +52,7 @@ public class DoctorsController : ControllerBase
 
     // Create a doctor account.
     [HttpPost("createDoctor")]
-    public ActionResult<Doctor> AddDoctor([FromBody] DoctorRegister Doctor)
+    public ActionResult<Doctor> AddDoctor([FromBody] Doctor Doctor)
     {
         try
         {

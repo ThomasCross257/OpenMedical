@@ -199,29 +199,41 @@ public class MedicalController : ControllerBase
         {
             // Retrieve the patient from your database based on the email
             var patientFromDb = await _context.Patients.FirstOrDefaultAsync(p => p.Email == authenticationModel.Email);
-
             // Check if the patient exists
-            if (patientFromDb == null)
+            if (patientFromDb != null)
             {
-                return NotFound("User not found");
+
+                // Check if the password matches
+                if (!BCrypt.Net.BCrypt.Verify(authenticationModel.Password, patientFromDb.Password))
+                {
+                    return Unauthorized("Invalid password");
+                }
+
+                // Get the patient's ID
+                int patientID = _context.Patients.FirstOrDefault(p => p.Email == authenticationModel.Email).PatientID;
+
+                // Generate a JWT token
+                var token = GenerateJwtToken(patientID);
+
+                // Return the JWT token
+                return Ok(new { Token = token });
             }
-
-            var patientVerify = await _context.PatientRegister.FirstOrDefaultAsync(p => p.Email == authenticationModel.Email);
-
-            // Check if the password matches
-            if (!BCrypt.Net.BCrypt.Verify(authenticationModel.Password, patientVerify.Password))
+            else
             {
-                return Unauthorized("Invalid password");
+                var doctorFromDb = await _context.Doctors.FirstOrDefaultAsync(d => d.Email == authenticationModel.Email);
+                // Check if the doctor exists
+                if (doctorFromDb == null)
+                {
+                    return NotFound("User not found");
+                }
+                if (!BCrypt.Net.BCrypt.Verify(authenticationModel.Password, doctorFromDb.Password))
+                {
+                    return Unauthorized("Invalid password");
+                }
+                int doctorID = _context.Doctors.FirstOrDefault(d => d.Email == authenticationModel.Email).DoctorID;
+                var token = GenerateJwtToken(doctorID);
+                return Ok(new { Token = token });
             }
-
-            // Get the patient's ID
-            int patientID = _context.Patients.FirstOrDefault(p => p.Email == authenticationModel.Email).PatientID;
-
-            // Generate a JWT token
-            var token = GenerateJwtToken(patientID);
-
-            // Return the JWT token
-            return Ok(new { Token = token });
         }
         catch (Exception e)
         {

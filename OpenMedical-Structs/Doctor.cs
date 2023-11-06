@@ -25,11 +25,8 @@ namespace OpenMedical_Structs
 
         [StringLength(100)]
         public string Email { get; set; }
-    }
-    public class DoctorRegister : Doctor
-    {
-        [Required]
-        [StringLength(30)]
+
+        [BindNever]
         public string Password { get; set; }
     }
 }

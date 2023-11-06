@@ -21,6 +21,11 @@ public class PatientsController : ControllerBase
     public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
     {
         var patients = await _context.Patients.ToListAsync();
+        // Loop through the list and remove the password from each patient
+        foreach (var patient in patients)  // This is a really stupid implementation, but Entity Framework Core for some reason wants to acknowledge the doctors and not this one,
+        {
+            patient.Password = "Unauthorized"; // For now, this is the only way I can think of to remove the password from the response
+        }
         return Ok(patients);
     }
 
@@ -32,11 +37,12 @@ public class PatientsController : ControllerBase
         {
             return NotFound();
         }
+        patient.Password = "Unauthorized";
         return Ok(patient);
     }
 
     [HttpPost("createPatient")]
-    public ActionResult<Patient> AddPatient([FromBody] PatientRegister patientRegister)
+    public ActionResult<Patient> AddPatient([FromBody] Patient patientRegister)
     {
         try
         {
@@ -48,7 +54,7 @@ public class PatientsController : ControllerBase
             _context.SaveChanges();
 
             // Return the created patient
-            return Ok(patientRegister);
+            return Ok("Created Patient " + patientRegister.FirstName + " " + patientRegister.LastName);
         }
         catch (Exception e)
         {
