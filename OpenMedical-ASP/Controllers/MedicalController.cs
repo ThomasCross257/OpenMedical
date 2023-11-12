@@ -7,7 +7,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Runtime.InteropServices;
+using OpenMedical_ASP;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -18,7 +22,7 @@ public class MedicalController : ControllerBase
     public MedicalController(OpenMedicalDBContext context)
     {
         _context = context;
-}
+    }
 
     private static string GenerateRandomSecretKey(int keyLengthInBytes)
     {
@@ -54,17 +58,16 @@ public class MedicalController : ControllerBase
         return userId;
     }
 
-
-    [HttpGet("getAppointments/{id}")]
+    [HttpGet("getAppointments/{id}/{role}")]
     public async Task<ActionResult<IEnumerable<Appointment>>>
-        GetAppointments(int id, [FromHeader(Name = "UserRole")] string userRole)
+        GetAppointments(int id, string role)
     {
-        if (userRole == "Patient")
+        if (role == "Patient")
         {
             var appointments = await _context.Appointments.Where(a => a.PatientID == id).ToListAsync();
             return Ok(appointments);
         }
-        else if (userRole == "Doctor")
+        else if (role == "Doctor")
         {
             var appointments = await _context.Appointments.Where(a => a.DoctorID == id).ToListAsync();
             return Ok(appointments);
@@ -75,16 +78,28 @@ public class MedicalController : ControllerBase
         }
     }
 
-    [HttpGet("getMedicalRecords/{id}")]
+    [HttpGet("getMedicalRecords/{id}/{role}")]
     public async Task<ActionResult<IEnumerable<MedicalRecord>>>
-        GetMedicalRecords(int id, [FromHeader(Name = "UserRole")] string userRole)
+        GetMedicalRecords(int id, string role)
     {
-        var medicalRecords = await _context.MedicalRecords.Where(m => m.PatientID == id).ToListAsync();
-        return Ok(medicalRecords);
+        if (role == "Patient")
+        {
+            var medicalRecords = await _context.MedicalRecords.Where(m => m.PatientID == id).ToListAsync();
+            return Ok(medicalRecords);
+        }
+        else if (role == "Doctor")
+        {
+            var medicalRecords = await _context.MedicalRecords.Where(m => m.DoctorID == id).ToListAsync();
+            return Ok(medicalRecords);
+        }
+        else
+        {
+            return Unauthorized();
+        }
     }
 
-    [HttpGet("getPrescriptions/{id}")]
-    public async Task<ActionResult<IEnumerable<Prescription>>> GetPrescriptions(int id, [FromHeader(Name = "UserRole")] string userRole)
+    [HttpGet("getPrescriptions/{id}/{role}")]
+    public async Task<ActionResult<IEnumerable<Prescription>>> GetPrescriptions(int id, string userRole)
     {
         if (userRole == "Doctor")
         {
@@ -100,7 +115,7 @@ public class MedicalController : ControllerBase
                 .ToListAsync();
             return Ok(prescriptions);
         }
-        else if (userRole == "Patient" && id == GetCurrentUserId())
+        else if (userRole == "Patient")
         {
             // Patients can retrieve their own prescriptions
             var patient = await _context.Patients.FindAsync(id);
@@ -119,42 +134,87 @@ public class MedicalController : ControllerBase
         }
     }
 
-
-    [HttpGet("downloadRecord")]
+    [HttpGet("downloadRecord/{id}/{role}")]
     public async Task<ActionResult<MedicalRecord>>
-        GetMedicalRecordById(int id, int patientID, [FromHeader(Name = "UserRole")] string userRole)
+        GetMedicalRecordById(int id, int patientID, string role)
     {
-        // Check if the medicalRecord is for a valid patient
-        var medicalRecord = await _context.MedicalRecords.FindAsync(id);
-        if (medicalRecord == null)
+        if (role == Roles.Patient)
         {
-            return NotFound("Medical record not found");
-        }
+            // Check if the medicalRecord is for a valid patient
+            var medicalRecord = await _context.MedicalRecords.FindAsync(id);
+            if (medicalRecord == null)
+            {
+                return NotFound("Medical record not found");
+            }
 
-        if (medicalRecord.PatientID != patientID)
+            if (medicalRecord.PatientID != patientID)
+            {
+                return NotFound("Medical record doesn't belong to the specified patient");
+            }
+
+            return Ok(medicalRecord);
+        }
+        else if (role == Roles.Doctor)
         {
-            return NotFound("Medical record doesn't belong to the specified patient");
-        }
+            // Check if the medicalRecord is for a valid patient
+            var medicalRecord = await _context.MedicalRecords.FindAsync(id);
+            if (medicalRecord == null)
+            {
+                return NotFound("Medical record not found");
+            }
 
-        return Ok(medicalRecord);
+            if (medicalRecord.DoctorID != patientID)
+            {
+                return NotFound("Medical record doesn't belong to the specified patient");
+            }
+
+            return Ok(medicalRecord);
+        }
+        else
+        {
+            return Unauthorized();
+        }
     }
 
-    [HttpGet("viewPrescription")]
-    public async Task<ActionResult<Prescription>> GetPrescriptionById(int id, int patientID)
+    [HttpGet("viewPrescription/{id}/{role}")]
+    public async Task<ActionResult<Prescription>> GetPrescriptionById(int id, int patientID, string role)
     {
-        // Check if the prescription is for a valid patient
-        var prescription = await _context.Prescriptions.FindAsync(id);
-        if (prescription == null)
+        if (role == Roles.Patient)
         {
-            return NotFound("Prescription not found");
-        }
+            // Check if the prescription is for a valid patient
+            var prescription = await _context.Prescriptions.FindAsync(id);
+            if (prescription == null)
+            {
+                return NotFound("Prescription not found");
+            }
 
-        if (prescription.PatientID != patientID)
+            if (prescription.PatientID != patientID)
+            {
+                return NotFound("Prescription doesn't belong to the specified patient");
+            }
+
+            return Ok(prescription);
+        }
+        else if (role == Roles.Doctor)
         {
-            return NotFound("Prescription doesn't belong to the specified patient");
-        }
+            // Check if the prescription is for a valid patient
+            var prescription = await _context.Prescriptions.FindAsync(id);
+            if (prescription == null)
+            {
+                return NotFound("Prescription not found");
+            }
 
-        return Ok(prescription);
+            if (prescription.DoctorID != patientID)
+            {
+                return NotFound("Prescription doesn't belong to the specified patient");
+            }
+
+            return Ok(prescription);
+        }
+        else
+        {
+            return Unauthorized();
+        }
     }
 
     [HttpPost("createAppointment")]
@@ -191,7 +251,6 @@ public class MedicalController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-
     [HttpPost("login")]
     public async Task<ActionResult<string>> Login([FromBody] AuthenticationModel authenticationModel)
     {
@@ -210,10 +269,24 @@ public class MedicalController : ControllerBase
                 }
 
                 // Get the patient's ID
-                int patientID = _context.Patients.FirstOrDefault(p => p.Email == authenticationModel.Email).PatientID;
 
-                // Generate a JWT token
-                var token = GenerateJwtToken(patientID);
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, patientFromDb.FirstName + " " + patientFromDb.LastName),
+                    new Claim(ClaimTypes.Role, Roles.Patient),
+                    new Claim(ClaimTypes.NameIdentifier,patientFromDb.PatientID.ToString())
+
+                };
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GenerateRandomSecretKey(16)));
+                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+                var token = new JwtSecurityToken(
+
+                    issuer: "https://localhost:7160",
+                    audience: "https://localhost:7160",
+                    claims: claims,
+                    expires: DateTime.Now.AddHours(1),
+                    signingCredentials: credentials
+                );
 
                 // Return the JWT token
                 return Ok(new { Token = token });
@@ -230,8 +303,22 @@ public class MedicalController : ControllerBase
                 {
                     return Unauthorized("Invalid password");
                 }
-                int doctorID = _context.Doctors.FirstOrDefault(d => d.Email == authenticationModel.Email).DoctorID;
-                var token = GenerateJwtToken(doctorID);
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, doctorFromDb.FirstName + " " + doctorFromDb.LastName),
+                    new Claim(ClaimTypes.Role, Roles.Doctor),
+                    new Claim(ClaimTypes.NameIdentifier, doctorFromDb.DoctorID.ToString())
+                };
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GenerateRandomSecretKey(16)));
+                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+                var token = new JwtSecurityToken(
+
+                    issuer: "https://localhost:7160",
+                    audience: "https://localhost:7160",
+                    claims: claims,
+                    expires: DateTime.Now.AddHours(1),
+                    signingCredentials: credentials
+                );
                 return Ok(new { Token = token });
             }
         }
@@ -242,25 +329,19 @@ public class MedicalController : ControllerBase
     }
 
 
-    private string GenerateJwtToken(int patientId)
+    private string GenerateJwtToken(List<Claim> claims)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(GenerateRandomSecretKey(16));
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
-            new Claim(ClaimTypes.Name, patientId.ToString()), // Store the user ID in the token
-                                                              // Add more claims as needed, e.g., user roles
-            }),
+            Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddHours(1), // Set token expiration time
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
-
-
 
     [HttpPut("updateAppointment")]
     public async Task<ActionResult<Appointment>> UpdateAppointment(int id, [FromBody] Appointment appointment)

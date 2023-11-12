@@ -9,6 +9,10 @@ using OpenMedical_ASP;
 using OpenMedical_Structs; // Replace with the actual namespace of your models
 using OpenMedical_ASP.Repositories; // Replace with the actual namespace of your repositories
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace OpenMedical_ASP
 {
@@ -50,10 +54,59 @@ namespace OpenMedical_ASP
                         .AllowAnyHeader());
             });
 
-            // Configure Swagger/OpenAPI for API documentation
-            services.AddSwaggerGen();
+            // Configure Swagger/OpenAPI for API documentations
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OpenMedical Backend", Version = "v1" });
 
-            // Add other configurations and services as needed
+                // Define security scheme
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme.",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
+                });
+
+                // Assign security requirements based on roles
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { Roles.Admin, Roles.Doctor, Roles.Patient }
+        }
+    });
+            });
+
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        // Configure token validation parameters
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Roles.Doctor, policy => policy.RequireRole(Roles.Doctor));
+                options.AddPolicy(Roles.Patient, policy => policy.RequireRole(Roles.Patient));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

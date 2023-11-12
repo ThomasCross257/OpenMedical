@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "6D/AHhFMgf7VoNIJMInK8/XKCDUaU/yXQPd5eT7rD4D4+r20CWU/KvY4ZuwNEp60m9h38dxzbQsWkcryr0jGWg==",
+  "dgSpecHash": "qhafThsQ+DbXflHRoEprExoM5UxWqtdIJ75UbuPo6L/GEX92f0YBdl6gLLMGCnDOvWpC01g08rXXnZ5W7/C1lA==",
   "success": true,
   "projectFilePath": "D:\\Program Files (x86)\\Users\\Mike Rowe Soft\\Documents\\CSE 4050\\CSE4050-Project\\OpenMedical-ASP\\OpenMedical-ASP.csproj",
   "expectedPackageFiles": [
@@ -13,6 +13,7 @@
     "C:\\Users\\Mike Rowe Soft\\.nuget\\packages\\identityserver4.storage\\4.1.2\\identityserver4.storage.4.1.2.nupkg.sha512",
     "C:\\Users\\Mike Rowe Soft\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Mike Rowe Soft\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",
+    "C:\\Users\\Mike Rowe Soft\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.24\\microsoft.aspnetcore.authentication.jwtbearer.6.0.24.nupkg.sha512",
     "C:\\Users\\Mike Rowe Soft\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\3.1.0\\microsoft.aspnetcore.authentication.openidconnect.3.1.0.nupkg.sha512",
     "C:\\Users\\Mike Rowe Soft\\.nuget\\packages\\microsoft.aspnetcore.authorization\\2.2.0\\microsoft.aspnetcore.authorization.2.2.0.nupkg.sha512",
     "C:\\Users\\Mike Rowe Soft\\.nuget\\packages\\microsoft.aspnetcore.authorization.policy\\2.2.0\\microsoft.aspnetcore.authorization.policy.2.2.0.nupkg.sha512",

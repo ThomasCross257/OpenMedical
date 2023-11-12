@@ -4,6 +4,8 @@ using OpenMedical_Structs;
 using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using OpenMedical_ASP;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -43,9 +45,13 @@ public class DoctorsController : ControllerBase
         return Ok(Doctor);
     }
     // Get patients of a doctor by their ID
-    [HttpGet("getPatients/{id}")]
-    public async Task<ActionResult<IEnumerable<Patient>>> GetPatients(int id)
+    [HttpGet("getPatients/{id}/{role}")]
+    public async Task<ActionResult<IEnumerable<Patient>>> GetPatients(int id, string role)
     {
+        if (role != Roles.Doctor)
+        {
+            return Unauthorized();
+        }
         var patients = await _context.patientOf.Where(p => p.DoctorID == id).ToListAsync();
         return Ok(patients);
     }

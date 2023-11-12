@@ -21,4 +21,9 @@ interface DoctorFormData {
     Password: string;
 }
 
-export type { DoctorFormData, PatientFormData };
+interface LoginFormData {
+    Email: string;
+    Password: string;
+}
+
+export type { DoctorFormData, PatientFormData, LoginFormData };

@@ -3,6 +3,10 @@ using OpenMedical_ASP.Repositories;
 using OpenMedical_Structs;
 using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using OpenMedical_ASP;
+using Microsoft.AspNetCore.Authorization;
+
 
 [Route("api/[controller]")]
 [ApiController]
@@ -28,7 +32,6 @@ public class PatientsController : ControllerBase
         }
         return Ok(patients);
     }
-
     [HttpGet("{id}")]
     public async Task<ActionResult<Patient>> GetPatientById(int id)
     {
@@ -40,7 +43,6 @@ public class PatientsController : ControllerBase
         patient.Password = "Unauthorized";
         return Ok(patient);
     }
-
     [HttpPost("createPatient")]
     public ActionResult<Patient> AddPatient([FromBody] Patient patientRegister)
     {
@@ -61,10 +63,13 @@ public class PatientsController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-
-    [HttpGet("getPrimaryDoctor/{patientID}")]
-    public async Task<ActionResult<IEnumerable<Patient>>> GetPrimaryDoctor(int id)
+    [HttpGet("getPrimaryDoctor/{patientID}/{role}")]
+    public async Task<ActionResult<IEnumerable<Patient>>> GetPrimaryDoctor(int id, string role)
     {
+        if (role != Roles.Patient)
+        {
+            return Unauthorized();
+        }
         var patients = await _context.patientOf.Where(p => p.PatientID == id).ToListAsync();
         return Ok(patients);
     }
