@@ -13,11 +13,8 @@ namespace OpenMedical_Structs
 
         [Required]
         [StringLength(50)]
-        public string FirstName { get; set; }
+        public string FullName { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string LastName { get; set; }
         [StringLength(100)]
         public string Specialty { get; set; }
         [StringLength(20)]

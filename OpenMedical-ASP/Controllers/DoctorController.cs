@@ -64,7 +64,7 @@ public class DoctorsController : ControllerBase
         {
             // Hash the password before saving it
             Doctor.Password = BCrypt.Net.BCrypt.HashPassword(Doctor.Password);
-
+            // Remove ID from the request body
             // Add the Doctor to your database
             _context.Doctors.Add(Doctor);
             _context.SaveChanges();

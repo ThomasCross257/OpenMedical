@@ -20,10 +20,10 @@ namespace OpenMedical_Structs
         public string Notes { get; set; }
 
         [StringLength(100)]
-        public string PatientFullName { get; set; }
+        public string PatientFName { get; set; }
 
         [StringLength(100)]
-        public string DoctorFullName { get; set; }
+        public string DoctorFName { get; set; }
     }
 
 }

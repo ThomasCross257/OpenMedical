@@ -56,7 +56,7 @@ public class PatientsController : ControllerBase
             _context.SaveChanges();
 
             // Return the created patient
-            return Ok("Created Patient " + patientRegister.FirstName + " " + patientRegister.LastName);
+            return Ok("Created Patient " + patientRegister.FullName);
         }
         catch (Exception e)
         {
@@ -64,13 +64,13 @@ public class PatientsController : ControllerBase
         }
     }
     [HttpGet("getPrimaryDoctor/{patientID}/{role}")]
-    public async Task<ActionResult<IEnumerable<Patient>>> GetPrimaryDoctor(int id, string role)
+    public async Task<ActionResult<IEnumerable<Patient>>> GetPrimaryDoctor(int patientID, string role)
     {
         if (role != Roles.Patient)
         {
             return Unauthorized();
         }
-        var patients = await _context.patientOf.Where(p => p.PatientID == id).ToListAsync();
+        var patients = await _context.patientOf.Where(p => p.PatientID == patientID).ToListAsync();
         return Ok(patients);
     }
 

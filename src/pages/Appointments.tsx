@@ -1,76 +1,80 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import AppointmentEvent from '../events/viewAppointment';
+import axios from 'axios';
+import ViewAppointmentModal from '../components/appointments/viewAppointment';
+import CreateAppointmentModal from '../components/appointments/createAppointment';
+import { getUserInfoFromToken } from '../assets/func/userFunc';
 
 const localizer = momentLocalizer(moment);
 
-// This should be reorganized into a component later : TODO - Thomas
+const UserInfo = getUserInfoFromToken();
 
-interface Appointment {
-  title: string;
-  start: Date;
-  end: Date;
-  reason: string;
-  status: string;
-}
+const Appointments = () => {
+  const [appointments, setAppointments] = useState([]);
+  const [showModal_view, setShowModal_view] = useState(false);
+  const [showModal_create, setShowModal_create] = useState(false);
 
-var appointments: Appointment[] = [ // Var will only be for testing purposes. This will be replaced with a call to the database.
-  {
-    title: 'Meeting 1',
-    start: new Date(2023, 8, 25, 10, 0),
-    end: new Date(2023, 8, 25, 11, 0),
-    reason: 'Checkup',
-    status: 'Pending',
-  },
-  {
-    title: 'Meeting 2',
-    start: new Date(2023, 7, 25, 14, 0),
-    end: new Date(2023, 7, 25, 15, 0),
-    reason: 'Checkup',
-    status: 'Complete',
-  },
-];
+  useEffect(() => {
+    axios.get(`https://localhost:7160/api/Medical/getAppointments/${UserInfo?.ID}/${UserInfo?.role}`)
+      .then((res) => {
+        if (res.data != null) {
+          console.log(res.data);
+          setAppointments(res.data.map((appointment: any) => {
+            return {
+              appointmentID: appointment.appointmentID,
+              start: new Date(appointment.appointmentStart),
+              end: new Date(appointment.appointmentEnd),
+              title: appointment.appointmentType,
+              patientName: appointment.patientFName,
+              doctorName: appointment.doctorFName,
+              type: appointment.appointmentType,
+              status: appointment.status,
+            };
+          }));
+        }
+      });
+  }, []);
 
-const addAppointment = () => { // Currently only a test. Works in the console, however it doesn't display on the calendar in real time. Keep for future use.
-  const startTime = new Date(); // Current time
-  const endTime = new Date(startTime);
-  endTime.setHours(startTime.getHours() + 1); // Set end time 1 hour later
-
-  const testAppointment = {
-    title: 'Meeting 3',
-    start: startTime,
-    end: endTime,
-    reason: 'Checkup',
-    status: 'Pending',
+  const AppointmentCalendar = () => {
+    return (
+      <div className="appointment-calendar">
+        <div className="d-flex justify-content-between">
+          <h1>Upcoming Appointments</h1>
+          <button className="btn btn-success" onClick={() => setShowModal_create(true)}>Create Appointment</button>
+        </div>
+        <br />
+        <Calendar
+          localizer={localizer}
+          events={appointments}
+          startAccessor="start"
+          endAccessor="end"
+          components={{
+            event: AppointmentEvent,
+          }}
+          style={{ height: 500 }}
+        />
+      </div>
+    );
   };
 
-  appointments.push(testAppointment);
-  console.log(appointments);
-};
-
-
-const AppointmentCalendar: React.FC = () => {
   return (
-    <div className="appointment-calendar">  
-      <div className="d-flex justify-content-between">
-        <h1>Upcoming Appointments</h1>
-        <button className="btn btn-success" onClick={addAppointment} >Add Appointment</button>
-      </div>
-      <br/>
-      <Calendar
-        localizer={localizer}
-        events={appointments}
-        startAccessor="start"
-        endAccessor="end"
-        components={{
-          event: AppointmentEvent,
-        }}
-        style={{ height: 500 }}
+    <div>
+      <ViewAppointmentModal
+        isOpen={showModal_view}
+        onRequestClose={() => setShowModal_view(false)}
+        event={appointments[0]}
       />
+      <CreateAppointmentModal
+        isOpen={showModal_create}
+        onRequestClose={() => setShowModal_create(false)}
+        event={appointments[0]}
+      />
+      <AppointmentCalendar />
     </div>
   );
 };
 
-export default AppointmentCalendar;
+export default Appointments;

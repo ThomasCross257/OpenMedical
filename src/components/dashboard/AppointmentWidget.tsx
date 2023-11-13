@@ -39,8 +39,8 @@ function AppointmentWidget() {
                     <li key={appointment.appointmentID} className="list-group-item">
                         <div className="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5 className="card-title">{appointment.doctorFullName}</h5>
-                                <p className="card-text">Date: {appointment.appointmentDateTime}</p>
+                                <h5 className="card-title">{role === 'Doctor' ? appointment.patientFName : appointment.doctorFName}</h5>
+                                <p className="card-text">{new Date(appointment.appointmentStart).toLocaleString()}</p>
                                 <p className="card-text">Reason: {appointment.appointmentType}</p>
                                 <p className="card-text">Status: {appointment.status}</p>
                             </div>

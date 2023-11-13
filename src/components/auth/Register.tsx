@@ -6,8 +6,7 @@ function Register() {
   const [registrationType, setRegistrationType] = useState<'doctor' | 'patient'>('patient');
 
   const [formData, setFormData] = useState<DoctorFormData | PatientFormData>({
-    FirstName: '',
-    LastName: '',
+    FullName: '',
     ContactNumber: '',
     Email: '',
     Password: '',
@@ -22,9 +21,42 @@ function Register() {
 
   async function registerUser(data: DoctorFormData | PatientFormData): Promise<void> {
     try {
-      // Send the data to your API based on the registration type (doctor or patient)
+      // Create a new object that only includes the properties with non-empty values
+      const filteredData = Object.fromEntries(Object.entries(data).filter(([key, value]) => value !== ''));
+      console.log(filteredData);
+      // Create a new object with the properties in the desired order
+      let sortedData;
+      if (registrationType === 'doctor') {
+        sortedData = {
+          doctorID: 0,
+          fullName: filteredData.FullName,
+          specialty: filteredData.Speciality,
+          contactNumber: filteredData.ContactNumber,
+          email: filteredData.Email,
+          password: filteredData.Password,
+        };
+      } else {
+        sortedData = {
+          patientID: 0,
+          firstName: filteredData.FirstName,
+          lastName: filteredData.LastName,
+          dateOfBirth: filteredData.DateOfBirth,
+          gender: filteredData.Gender,
+          contactNumber: filteredData.ContactNumber,
+          email: filteredData.Email,
+          address: filteredData.Address,
+          zipCode: filteredData.ZipCode,
+          city: filteredData.City,
+          state: filteredData.State,
+          password: filteredData.Password,
+        };
+      }
+
+      // Send the sorted data to your API based on the registration type (doctor or patient)
       const endpoint = registrationType === 'doctor' ? 'createDoctor' : 'createPatient';
-      const response = await axios.post(`https://localhost:7160/api/${endpoint}`, data);
+      console.log(sortedData);
+
+      const response = await axios.post(`https://localhost:7160/api/Doctors/${endpoint}`, sortedData);
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -54,16 +86,16 @@ function Register() {
       </div>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="FirstName" className="form-label">First Name</label>
-          <input type="text" className="form-control" id="FirstName" onChange={handleInputChange} />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="LastName" className="form-label">Last Name</label>
-          <input type="text" className="form-control" id="LastName" onChange={handleInputChange} />
+          <label htmlFor="FullName" className="form-label">First Name</label>
+          <input type="text" className="form-control" id="FullName" onChange={handleInputChange} />
         </div>
         <div className="mb-3">
           <label htmlFor="Email" className="form-label">Email address</label>
           <input type="email" className="form-control" id="Email" onChange={handleInputChange} />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="ContactNumber" className="form-label">Contact Number</label>
+          <input type="tel" className="form-control" id="ContactNumber" onChange={handleInputChange} />
         </div>
         <div className="mb-3">
           <label htmlFor="Password" className="form-label">Password</label>

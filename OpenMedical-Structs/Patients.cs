@@ -12,10 +12,7 @@ namespace OpenMedical_Structs
         public int PatientID { get; set; }
         [Required]
         [StringLength(50)]
-        public string FirstName { get; set; }
-        [Required]
-        [StringLength(50)]
-        public string LastName { get; set; }
+        public string FullName { get; set; }
         public DateTime? DateOfBirth { get; set; }
 
         [StringLength(10)]

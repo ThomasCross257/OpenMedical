@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import AppointmentWidget from '../components/dashboard/AppointmentWidget.tsx';
 import RecentAppWidget from '../components/dashboard/RecentAppWidget.tsx';
 import RecordWidget from '../components/dashboard/RecordWidget.tsx';
-import { getUserInfoFromToken, findUserByID } from '../assets/func/userFunc.ts';
+import { getUserInfoFromToken } from '../assets/func/userFunc.ts';
 
 function PatientDash() {
   const [userID, setUserID] = useState<number | null>(null);

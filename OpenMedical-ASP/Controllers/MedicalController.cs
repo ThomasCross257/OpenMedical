@@ -222,6 +222,9 @@ public class MedicalController : ControllerBase
     {
         try
         {
+            // Map properties to the actual Appointment 
+            DateTime dateTime = new DateTime(;
+
             // Add the appointment to your database
             _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync();
@@ -272,7 +275,7 @@ public class MedicalController : ControllerBase
 
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, patientFromDb.FirstName + " " + patientFromDb.LastName),
+                    new Claim(ClaimTypes.Name, patientFromDb.FullName),
                     new Claim(ClaimTypes.Role, Roles.Patient),
                     new Claim(ClaimTypes.NameIdentifier,patientFromDb.PatientID.ToString())
 
@@ -305,7 +308,7 @@ public class MedicalController : ControllerBase
                 }
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, doctorFromDb.FirstName + " " + doctorFromDb.LastName),
+                    new Claim(ClaimTypes.Name, doctorFromDb.FullName),
                     new Claim(ClaimTypes.Role, Roles.Doctor),
                     new Claim(ClaimTypes.NameIdentifier, doctorFromDb.DoctorID.ToString())
                 };
@@ -342,6 +345,20 @@ public class MedicalController : ControllerBase
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
+    [HttpPost("cancelAppointment/{id}")]
+    public async Task<ActionResult<Appointment>> DeleteAppointment(int id)
+    {
+        var appointment = await _context.Appointments.FindAsync(id);
+        if (appointment == null)
+        {
+            return NotFound("Appointment not found");
+        }
+
+        _context.Appointments.Remove(appointment);
+        await _context.SaveChangesAsync();
+
+        return Ok(appointment);
+    }
 
     [HttpPut("updateAppointment")]
     public async Task<ActionResult<Appointment>> UpdateAppointment(int id, [FromBody] Appointment appointment)
@@ -369,20 +386,5 @@ public class MedicalController : ControllerBase
                 throw;
             }
         }
-    }
-
-    [HttpDelete("cancelAppointment")]
-    public async Task<ActionResult<Appointment>> DeleteAppointment(int id)
-    {
-        var appointment = await _context.Appointments.FindAsync(id);
-        if (appointment == null)
-        {
-            return NotFound("Appointment not found");
-        }
-
-        _context.Appointments.Remove(appointment);
-        await _context.SaveChangesAsync();
-
-        return Ok(appointment);
     }
 }

@@ -11,7 +11,9 @@ namespace OpenMedical_Structs
         public int AppointmentID { get; set; }
         public int PatientID { get; set; }
         public int DoctorID { get; set; }
-        public DateTime AppointmentDateTime { get; set; }
+        public DateTime AppointmentStart { get; set; }
+
+        public DateTime AppointmentEnd { get; set; }
 
         [StringLength(20)]
         public string AppointmentType { get; set; }
@@ -20,10 +22,10 @@ namespace OpenMedical_Structs
         public string Status { get; set; }
 
         [StringLength(100)]
-        public string PatientFullName { get; set; }
-
+        public string PatientFName { get; set; }
         [StringLength(100)]
-        public string DoctorFullName { get; set; }
+        public string DoctorFName { get; set; }
 
+        // Allowing these to be nullable for testing purposes
     }
 }

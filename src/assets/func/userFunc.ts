@@ -28,9 +28,14 @@ function getUserInfoFromToken() {
     return null;
 }
 
-function findUserByID(userID: string) {
+function findPatientByID(userID: string) {
     const intID = Number(userID);
     return axios.get(`https://localhost:7160/api/Patients/${intID}`)
 }
 
-export { getUserInfoFromToken, findUserByID }
+function findDoctorByID(userID: string) {
+    const intID = Number(userID);
+    return axios.get(`https://localhost:7160/api/Doctors/${intID}`)
+}
+
+export { getUserInfoFromToken, findPatientByID, findDoctorByID }

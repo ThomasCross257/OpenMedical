@@ -1,6 +1,5 @@
 interface PatientFormData {
-    FirstName: string;
-    LastName: string;
+    FullName: string;
     DateOfBirth: string;
     Gender: string;
     ContactNumber: string;
@@ -13,8 +12,7 @@ interface PatientFormData {
 }
 
 interface DoctorFormData {
-    FirstName: string;
-    LastName: string;
+    FullName: string;
     Speciality: string;
     ContactNumber: string;
     Email: string;
