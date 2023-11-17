@@ -44,7 +44,6 @@ function AppointmentWidget() {
                                 <p className="card-text">Reason: {appointment.appointmentType}</p>
                                 <p className="card-text">Status: {appointment.status}</p>
                             </div>
-                            <button className="btn btn-info">View</button>
                         </div>
                     </li>
                 ))}

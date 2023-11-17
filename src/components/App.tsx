@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Link, BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import Homepage from '../pages/Homepage.tsx';
 import About from '../pages/About.tsx';
 import Auth from '../pages/Auth.tsx';
@@ -7,9 +7,9 @@ import PatientDash from '../pages/Dashboard.tsx';
 import Appointments from '../pages/Appointments.tsx';
 import DocumentPortal from '../pages/DocumentPortal.tsx';
 import PrescriptionPage from '../pages/Prescriptions.tsx';
-import PreviousAppointments from '../pages/PreviousAppointments.tsx';
 import ViewAllRecords from '../pages/AllRecords.tsx';
-
+import logout from './auth/func/logout.ts';
+import { Navigate } from 'react-router-dom';
 
 function App() {
   const [] = useState(0);
@@ -30,6 +30,9 @@ function App() {
               <Link to="/login" className="nav-link">Login</Link>
             </li>
             <li>
+              <Link to="/logout" className="nav-link" onClick={logout}>Logout</Link>
+            </li>
+            <li>
               <Link to="/dashboard" className="nav-link">Patient Dashboard</Link>
             </li>
             <li>
@@ -40,9 +43,6 @@ function App() {
             </li>
             <li>
               <Link to="/prescriptions" className="nav-link">Prescriptions</Link>
-            </li>
-            <li>
-              <Link to="/previousAppointments" className="nav-link">Previous Appointments</Link>
             </li>
             <li>
               <Link to="/allPatientRecords" className="nav-link">All Patient Records</Link>
@@ -60,12 +60,13 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Auth />} />
+        <Route path="/logout" element={<Navigate to="/" />} />
         <Route path="/dashboard" element={<PatientDash />} />
         <Route path="/Appointments" element={<Appointments />} />
         <Route path="/DocumentPortal" element={<DocumentPortal />} />
         <Route path="/prescriptions" element={<PrescriptionPage />} />
-        <Route path="/previousAppointments" element={<PreviousAppointments />} />
         <Route path="/allPatientRecords" element={<ViewAllRecords />} />
+
       </Routes>
     </Router>
 

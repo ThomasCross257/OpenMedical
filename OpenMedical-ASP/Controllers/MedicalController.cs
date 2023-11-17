@@ -99,9 +99,9 @@ public class MedicalController : ControllerBase
     }
 
     [HttpGet("getPrescriptions/{id}/{role}")]
-    public async Task<ActionResult<IEnumerable<Prescription>>> GetPrescriptions(int id, string userRole)
+    public async Task<ActionResult<IEnumerable<Prescription>>> GetPrescriptions(int id, string role)
     {
-        if (userRole == "Doctor")
+        if (role == "Doctor")
         {
             // Doctors can only retrieve prescriptions for their patients
             var doctor = await _context.Doctors.FindAsync(id);
@@ -115,7 +115,7 @@ public class MedicalController : ControllerBase
                 .ToListAsync();
             return Ok(prescriptions);
         }
-        else if (userRole == "Patient")
+        else if (role == "Patient")
         {
             // Patients can retrieve their own prescriptions
             var patient = await _context.Patients.FindAsync(id);
@@ -223,7 +223,7 @@ public class MedicalController : ControllerBase
         try
         {
             // Map properties to the actual Appointment 
-            DateTime dateTime = new DateTime(;
+            DateTime dateTime = new DateTime();
 
             // Add the appointment to your database
             _context.Appointments.Add(appointment);
@@ -360,8 +360,8 @@ public class MedicalController : ControllerBase
         return Ok(appointment);
     }
 
-    [HttpPut("updateAppointment")]
-    public async Task<ActionResult<Appointment>> UpdateAppointment(int id, [FromBody] Appointment appointment)
+    [HttpPost("updateAppointment/{id}")]
+    public async Task<ActionResult<Appointment>> UpdateAppointment(int id, Appointment appointment)
     {
         if (id != appointment.AppointmentID)
         {

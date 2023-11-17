@@ -99,7 +99,7 @@ public class DoctorsController : ControllerBase
         }
     }
 
-    [HttpPut("updatePrescription")]
+    [HttpPost("updatePrescription")]
     public async Task<ActionResult<Prescription>> UpdatePrescription([FromBody] Prescription prescription)
     {
         try

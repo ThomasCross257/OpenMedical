@@ -25,8 +25,13 @@ const Appointments = () => {
           setAppointments(res.data.map((appointment: any) => {
             return {
               appointmentID: appointment.appointmentID,
+              patientID: appointment.patientID,
+              doctorID: appointment.doctorID,
+              // Two different kinds of start/end variables for display and for the API
               start: new Date(appointment.appointmentStart),
+              realStart: appointment.appointmentStart,
               end: new Date(appointment.appointmentEnd),
+              realEnd: appointment.appointmentEnd,
               title: appointment.appointmentType,
               patientName: appointment.patientFName,
               doctorName: appointment.doctorFName,
