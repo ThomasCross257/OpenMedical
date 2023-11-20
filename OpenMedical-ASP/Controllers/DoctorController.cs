@@ -55,6 +55,16 @@ public class DoctorsController : ControllerBase
         var patients = await _context.patientOf.Where(p => p.DoctorID == id).ToListAsync();
         return Ok(patients);
     }
+    [HttpGet("getPatientDocs/{id}/{doctorID}/{role}")]
+    public async Task<ActionResult<IEnumerable<MedicalRecord>>> GetPatientDocs(int id, int doctorID, string role)
+    {
+        if (role != Roles.Doctor)
+        {
+            return Unauthorized();
+        }
+        var patientDocs = await _context.MedicalRecords.Where(p => p.PatientID == id && p.DoctorID == doctorID).ToListAsync();
+        return Ok(patientDocs);
+    }
 
     // Create a doctor account.
     [HttpPost("createDoctor")]

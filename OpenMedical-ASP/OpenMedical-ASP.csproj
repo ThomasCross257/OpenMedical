@@ -23,4 +23,8 @@
     <ProjectReference Include="..\OpenMedical-Structs\OpenMedical-Structs.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="uploads\" />
+  </ItemGroup>
+
 </Project>

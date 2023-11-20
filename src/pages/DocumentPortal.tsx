@@ -3,30 +3,25 @@ import { useState } from 'react';
 
 import DoctorMedicalDocuments from '../components/dashboard/doctorDocPortal.tsx';
 import PatientMedicalDocuments from '../components/dashboard/patientDocPortal.tsx';
+import { getUserInfoFromToken } from '../assets/func/userFunc.ts';
 
 const DocumentPortal = () => {
-    const [isDoctor, setIsDoctor] = useState(false);
-    
+    const info = getUserInfoFromToken();
+    const role = info?.role;
+
+    if (role !== 'Doctor' && role !== 'Patient') {
+        return <h1 style={{ textAlign: 'center' }}>Access Denied</h1>;
+    }
+
     return (
         <div className="container">
-        <h1 className="my-4">Medical Documents</h1>
-        <div className="mb-4">
-            <button
-            className="btn btn-primary"
-            onClick={() => setIsDoctor(false)}
-            >
-            View Patient Medical Documents
-            </button>
-            <button
-            className="btn btn-primary ms-3"
-            onClick={() => setIsDoctor(true)}
-            >
-            View Doctor Medical Documents
-            </button>
-        </div>
-        {isDoctor ? <DoctorMedicalDocuments /> : <PatientMedicalDocuments />}
+            {role === 'Patient' ? (
+                <PatientMedicalDocuments />
+            ) : (
+                <DoctorMedicalDocuments />
+            )}
         </div>
     );
-    }
+}
 
 export default DocumentPortal;

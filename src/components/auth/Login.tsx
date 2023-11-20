@@ -9,7 +9,7 @@ function Login() {
   });
 
   function loginUser(formData: LoginFormData) {
-    axios.post('https://localhost:7160/api/Medical/login', formData)
+    axios.post('https://localhost:7160/api/Auth/login', formData)
       .then((response) => {
         // Store the token in local storage
         console.log(response);
@@ -20,7 +20,7 @@ function Login() {
         }
       })
       .catch((error) => {
-        console.log(error.response);
+        alert("Error: " + error.response.data);
       });
   }
 

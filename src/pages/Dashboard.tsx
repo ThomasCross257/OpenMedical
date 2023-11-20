@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import AppointmentWidget from '../components/dashboard/AppointmentWidget.tsx';
 import RecentAppWidget from '../components/dashboard/RecentAppWidget.tsx';
-import RecordWidget from '../components/dashboard/RecordWidget.tsx';
 import { getUserInfoFromToken } from '../assets/func/userFunc.ts';
 
 function PatientDash() {
@@ -10,16 +9,21 @@ function PatientDash() {
   const [name, setName] = useState<string | null>(null);
 
   const info = getUserInfoFromToken();
+  const ID = info?.ID;
+  const role = info?.role;
+  const userName = info?.name;
   console.log(info);
   useEffect(() => {
-    const ID = info?.ID;
-    const role = info?.role;
-    const userName = info?.name;
 
     setUserID(ID ?? null);
     setUserRole(role ?? null);
     setName(userName ?? null);
   }, []); // Mimics component mount
+
+  if (role !== 'Doctor' && role !== 'Patient') {
+    return <h1 style={{ textAlign: 'center' }}>Access Denied</h1>;
+  }
+
 
   return (
     <div className="container">
@@ -31,7 +35,6 @@ function PatientDash() {
         </div>
         <div className="col md-6">
           <RecentAppWidget />
-          <RecordWidget />
         </div>
       </div>
     </div>

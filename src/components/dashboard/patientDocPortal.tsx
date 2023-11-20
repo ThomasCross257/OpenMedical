@@ -1,53 +1,72 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DocumentUpload from "../uploadDoc.tsx";
+import { getUserInfoFromToken } from '../../assets/func/userFunc.ts';
+import { fetchFromAPI } from '../../assets/func/userFunc.ts';
+import { Spinner } from 'react-bootstrap';
 
 const PatientMedicalDocuments = () => {
-  const [documents, setDocuments] = useState([
-    {
-      id: 1,
-      name: 'Lab Report 1',
-      date: '2023-08-15',
-      type: 'Lab Report',
-      description: 'Results from recent lab tests.',
-    },
-    {
-      id: 2,
-      name: 'Prescription',
-      date: '2023-08-10',
-      type: 'Prescription',
-      description: 'Prescribed medications for your condition.',
-    },
-  ]);
+  const [documents, setDocuments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const info = getUserInfoFromToken();
+  const role = info?.role;
+  const ID = info?.ID;
+
+  useEffect(() => {
+    const getDocuments = async () => {
+      try {
+        const response = await fetchFromAPI(`/Records/getRecords/${ID}/${role}`);
+        const docsFromServer = response.data;
+        setDocuments(docsFromServer);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching documents:', error);
+        setLoading(false);
+      }
+    };
+
+    getDocuments();
+  }, [ID, role]);
+
+  function viewDoc(link: string) {
+    window.open(link);
+  }
 
   return (
     <div className="container">
       <h1 className="my-4">Medical Documents</h1>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Document Name</th>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {documents.map((doc) => (
-            <tr key={doc.id}>
-              <td>{doc.name}</td>
-              <td>{doc.date}</td>
-              <td>{doc.type}</td>
-              <td>{doc.description}</td>
-              <td>
-                <button className="btn btn-primary btn-sm">View</button>
-                <button className="btn btn-secondary btn-sm">Download</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <DocumentUpload />
+      {loading ? (
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100px' }}>
+          <Spinner animation="border" role="status" />
+        </div>
+      ) : (
+        <>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Doctor</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {documents.map((doc) => (
+                <tr key={doc.recordID}>
+                  <td>{doc.title}</td>
+                  <td>{new Date(doc.recordDate).toLocaleDateString()}</td>
+                  <td>{doc.doctorFName}</td>
+                  <td>
+                    <a href={doc.recordLink} download={doc.title}><button className="btn btn-primary btn-sm">Download</button></a>
+                    <button className="btn btn-secondary btn-sm" onClick={() => viewDoc(doc.recordLink)}>View</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <DocumentUpload />
+        </>
+      )}
     </div>
   );
 };

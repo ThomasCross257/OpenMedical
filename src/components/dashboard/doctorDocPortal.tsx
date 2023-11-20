@@ -1,80 +1,112 @@
-import { useState } from 'react';
-import DocumentUpload from '../uploadDoc';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import DocumentUpload from "../uploadDoc.tsx";
+import { getUserInfoFromToken } from '../../assets/func/userFunc.ts';
+import { fetchFromAPI } from '../../assets/func/userFunc.ts';
+import { Spinner } from 'react-bootstrap';
 
 const DoctorMedicalDocuments = () => {
-  const [patients, setPatients] = useState([
-    {
-      id: 1,
-      name: 'John Doe',
-      lastVisit: '2023-08-05',
-      documents: [
-        {
-          id: 1,
-          name: 'Lab Report 1',
-          date: '2023-08-15',
-          type: 'Lab Report',
-          description: 'Results from recent lab tests.',
-        },
-        {
-          id: 2,
-          name: 'Prescription',
-          date: '2023-08-10',
-          type: 'Prescription',
-          description: 'Prescribed medications for the patient.',
-        },
-      ],
-    },
-  ]);
+  const [patients, setPatients] = useState<any[]>([]);
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [documents, setDocuments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true); // New state for loading
 
-  const [documents, uploadDocuments] = useState(false);
-// Will add these as structures to the database later.
+  const info = getUserInfoFromToken();
+  const role = info?.role;
+  const ID = info?.ID;
 
-  const navigate = useNavigate();
-  const toRecords = () => {
-    navigate('/allPatientRecords');
-  };
+  // For getPatients useEffect
+  useEffect(() => {
+    const getPatients = async () => {
+      try {
+        const response = await fetchFromAPI(`/Doctors/getPatients/${ID}/${role}`);
+        const patientsFromServer = response.data;
+        setPatients(patientsFromServer);
+        setLoading(false); // Set loading to false once data is fetched
+      } catch (error) {
+        console.error('Error fetching patients:', error);
+        setLoading(false); // Set loading to false in case of an error
+      }
+    };
+
+    getPatients();
+  }, [ID, role]);
+
+  useEffect(() => {
+    if (selectedPatient) {
+      const getDocuments = async () => {
+        try {
+          const response = await fetchFromAPI(`/Doctors/getPatientDocs/${selectedPatient.patientID}/${ID}/${role}`);
+          const docsFromServer = response.data;
+          setDocuments(docsFromServer);
+        } catch (error) {
+          console.error('Error fetching documents:', error);
+        }
+      };
+
+      getDocuments();
+    }
+  }, [selectedPatient, ID, role]);
+
+  function viewDoc(link: string) {
+    window.open(link);
+  }
 
   return (
     <div className="container">
-      <h1 className="my-4">Medical Documents for Doctors</h1>
-      {patients.map((patient) => (
-        <div key={patient.id} className="mb-4">
-          <h3>{patient.name}</h3>
-          <p>Last Visit: {patient.lastVisit}</p>
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Document Name</th>
-                <th>Date</th>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {patient.documents.map((doc) => (
-                <tr key={doc.id}>
-                  <td>{doc.name}</td>
-                  <td>{doc.date}</td>
-                  <td>{doc.type}</td>
-                  <td>{doc.description}</td>
-                  <td>
-                    <button className="btn btn-primary btn-sm">View</button>
-                    <button className="btn btn-secondary btn-sm">Download</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button className="btn btn-primary"
-          onClick={() => uploadDocuments(true)}
-          >Add Document</button>
-          <button className="btn btn-info"
-          onClick={toRecords}>View All Records</button>
-          {documents ? <DocumentUpload /> : null}
+      <h1 className="my-4">Medical Documents</h1>
+      {loading ? ( // Display spinner while loading
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100px' }}>
+          <Spinner animation="border" role="status" />
         </div>
-      ))}
+      ) : (
+        <>
+          {selectedPatient ? (
+            <>
+              <button className="btn-primary btn" onClick={() => setSelectedPatient(null)}>Back</button>
+              <table className="table table-striped">
+                <table className="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Date</th>
+                      <th>Patient</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {documents.map((doc) => (
+                      <tr key={doc.recordID}>
+                        <td>{doc.title}</td>
+                        <td>{new Date(doc.recordDate).toLocaleDateString()}</td>
+                        <td>{doc.patientFName}</td>
+                        <td>
+                          <a href={doc.recordLink} download={doc.title}><button className="btn btn-primary btn-sm">Download</button></a>
+                          <button className="btn btn-secondary btn-sm" onClick={() => viewDoc(doc.recordLink)}>View</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </table>
+              {role === 'Doctor' ? (
+                <DocumentUpload selectedPatientID={selectedPatient.patientID} selectedPatientName={selectedPatient.patientFName} />
+              ) : (
+                <DocumentUpload />
+              )}
+            </>
+          ) : (
+            <ul style={{ listStyleType: 'none' }}>
+              {patients.map((patient) => (
+                <li key={patient.patientID}>
+                  <button
+                    style={{ width: '100%', height: '50px', textAlign: 'left' }}
+                    className="btn btn-success" onClick={() => setSelectedPatient(patient)}>{patient.patientFName}</button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
     </div>
   );
 };

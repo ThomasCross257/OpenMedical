@@ -1,6 +1,6 @@
 import axios from "axios";
 
-
+const BASE_URL = "https://localhost:7160/api";
 // Probably gonna wind up being used on every page
 function getUserInfoFromToken() {
     const token = localStorage.getItem('token');
@@ -38,4 +38,8 @@ function findDoctorByID(userID: string) {
     return axios.get(`https://localhost:7160/api/Doctors/${intID}`)
 }
 
-export { getUserInfoFromToken, findPatientByID, findDoctorByID }
+function fetchFromAPI(endpoint: string) {
+    return axios.get(`${BASE_URL}${endpoint}`);
+}
+
+export { getUserInfoFromToken, findPatientByID, findDoctorByID, fetchFromAPI }
