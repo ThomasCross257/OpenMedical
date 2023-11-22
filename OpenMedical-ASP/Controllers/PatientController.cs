@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OpenMedical_ASP.Repositories;
 using OpenMedical_Structs;
-using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using OpenMedical_ASP;
-using Microsoft.AspNetCore.Authorization;
 
 
 [Route("api/[controller]")]
@@ -26,7 +23,7 @@ public class PatientsController : ControllerBase
     {
         var patients = await _context.Patients.ToListAsync();
         // Loop through the list and remove the password from each patient
-        foreach (var patient in patients)  // This is a really stupid implementation, but Entity Framework Core for some reason wants to acknowledge the doctors and not this one,
+        foreach (var patient in patients)  // This is a really stupid implementation, but Entity Framework Core for some reason doesn't allow me to remove the password from the response.
         {
             patient.Password = "Unauthorized"; // For now, this is the only way I can think of to remove the password from the response
         }
@@ -43,26 +40,8 @@ public class PatientsController : ControllerBase
         patient.Password = "Unauthorized";
         return Ok(patient);
     }
-    [HttpPost("createPatient")]
-    public ActionResult<Patient> AddPatient([FromBody] Patient patientRegister)
-    {
-        try
-        {
-            // Hash the password before saving it
-            patientRegister.Password = BCrypt.Net.BCrypt.HashPassword(patientRegister.Password);
 
-            // Add the patient to your database
-            _context.Patients.Add(patientRegister);
-            _context.SaveChanges();
 
-            // Return the created patient
-            return Ok("Created Patient " + patientRegister.FullName);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
     [HttpGet("getPrimaryDoctor/{patientID}/{role}")]
     public async Task<ActionResult<IEnumerable<Patient>>> GetPrimaryDoctor(int patientID, string role)
     {

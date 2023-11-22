@@ -1,4 +1,3 @@
-// CustomEvent.tsx
 import React, { useState } from 'react';
 import Modal from '../components/appointments/viewAppointment';
 const AppointmentEvent: React.FC<any> = ({ event }) => {

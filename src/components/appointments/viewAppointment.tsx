@@ -1,4 +1,3 @@
-// Modal.tsx
 import ReactModal from 'react-modal';
 import axios from 'axios';
 import { getUserInfoFromToken } from '../../assets/func/userFunc';
@@ -7,7 +6,7 @@ import { useState, useEffect } from 'react';
 interface ModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  event: any // Replace 'Appointment' with your event type
+  event: any;
 }
 
 
@@ -36,24 +35,30 @@ const ViewAppointmentModal: React.FC<ModalProps> = ({ isOpen, onRequestClose, ev
     doctorFName: event.doctorName,
   };
   const [mappedAppointment, setMappedAppointment] = useState(initialAppointment);
-  const cancelAppointment = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const res = await axios.post(`https://localhost:7160/api/Medical/cancelAppointment/${event.appointmentID}`);
-    if (res.data != null) {
-      console.log(res.data);
-      onRequestClose();
-      window.location.reload();
-    }
-  };
 
   const alterAppointment = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await axios.post(`https://localhost:7160/api/Medical/updateAppointment/${event.appointmentID}`, mappedAppointment);
-
-    if (res.data != null) {
-      console.log(res.data);
-      onRequestClose();
-      window.location.reload();
+    if (mappedAppointment.status === 'Pending') {
+      alert('Please select a valid status.');
+      return;
+    }
+    else if (mappedAppointment.status === 'Cancelled') {
+      const confirmCancel = window.confirm('Are you sure you want to cancel this appointment?');
+      if (confirmCancel === true) {
+        const res = await axios.post(`https://localhost:7160/api/Appointment/deleteAppointment/${event.appointmentID}`);
+        if (res.data != null) {
+          console.log(res.data);
+          onRequestClose();
+          window.location.reload();
+        }
+      }
+    } else {
+      const res = await axios.post(`https://localhost:7160/api/Appointment/updateAppointment/${event.appointmentID}`, mappedAppointment);
+      if (res.data != null) {
+        console.log(res.data);
+        onRequestClose();
+        window.location.reload();
+      }
     }
   };
 
@@ -73,7 +78,7 @@ const ViewAppointmentModal: React.FC<ModalProps> = ({ isOpen, onRequestClose, ev
             <div className="modal-body">
               <p>Start: {new Date(event.start).toLocaleString()} to {new Date(event.end).toLocaleString()} </p>
               <p>Status:</p>
-              {userRole === 'Doctor' && (event.status !== 'Cancelled' && event.status !== 'Completed') ? (
+              {event.status !== 'Cancelled' && event.status !== 'Completed' ? (
 
                 <select
                   className="form-select"
@@ -85,10 +90,10 @@ const ViewAppointmentModal: React.FC<ModalProps> = ({ isOpen, onRequestClose, ev
                     }));
                   }}
                 >
-                  <option value="Pending">Pending</option>
-                  <option value="Approved">Approved</option>
+                  {event.status === 'Pending' ? <option value="Pending">Pending</option> : null}
                   <option value="Cancelled">Cancelled</option>
-                  <option value="Completed">Completed</option>
+                  {userRole === 'Doctor' ? <option value="Approved">Approved</option> : null}
+                  {userRole === 'Doctor' ? <option value="Completed">Completed</option> : null}
                 </select>
               ) : (
                 <p>{event.status}</p>
@@ -99,17 +104,9 @@ const ViewAppointmentModal: React.FC<ModalProps> = ({ isOpen, onRequestClose, ev
               </button>
               <br />
               <br />
-              {userRole === 'Doctor' && (
-                <button className="btn btn-secondary" onClick={alterAppointment}>
-                  Change Status
-                </button>
-              )}
-              <form onSubmit={cancelAppointment}>
-                <br />
-                <button className="btn btn-danger" type="submit">
-                  Cancel Appointment
-                </button>
-              </form>
+              <button className="btn btn-secondary" onClick={alterAppointment}>
+                Change Status
+              </button>
             </div>
           </div>
         </div>

@@ -1,17 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenMedical_Structs;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Runtime.InteropServices;
 using OpenMedical_ASP;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -22,6 +12,52 @@ public class RecordsController : ControllerBase
     public RecordsController(OpenMedicalDBContext context)
     {
         _context = context;
+    }
+
+    private string AssemblePath(string fileName)
+    {
+        var assemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+        var assemblyDirectory = Path.GetDirectoryName(assemblyLocation);
+        var projectRootDirectory = Path.Combine(assemblyDirectory, "../../");
+        var uploadFolder = Path.Combine(projectRootDirectory, "../uploads");
+        var filePath = Path.Combine(uploadFolder, fileName);
+        return filePath;
+    }
+
+    private async Task<string> ProcessFile(IFormFile file)
+    {
+        // Check if the file is not null
+        if (file == null || file.Length == 0)
+        {
+            throw new ArgumentException("File is missing.");
+        }
+
+        // Get a unique filename
+        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+        // Specify the folder to save the file
+        var assemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+        var assemblyDirectory = Path.GetDirectoryName(assemblyLocation);
+        var projectRootDirectory = Path.Combine(assemblyDirectory, "../../");
+        var uploadFolder = Path.Combine(projectRootDirectory, "../uploads");
+
+        // If the folder doesn't exist, create it
+        if (!Directory.Exists(uploadFolder))
+        {
+            Directory.CreateDirectory(uploadFolder);
+        }
+
+        // Combine the folder path and filename to get the full path
+        var filePath = Path.Combine(uploadFolder, fileName);
+
+        // Save the file to the server
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        // Return the file path
+        return fileName;
     }
 
     [HttpGet("getRecords/{id}/{role}")]
@@ -66,36 +102,8 @@ public class RecordsController : ControllerBase
     {
         try
         {
-            // Check if the file is not null
-            if (file == null || file.Length == 0)
-            {
-                return BadRequest("File is missing.");
-            }
 
-            // Get a unique filename
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-
-            // Specify the folder to save the file
-            var assemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var assemblyDirectory = Path.GetDirectoryName(assemblyLocation);
-            var projectRootDirectory = Path.Combine(assemblyDirectory, "../../");
-            var uploadFolder = Path.Combine(projectRootDirectory, "../uploads");
-
-            // If the folder doesn't exist, create it
-            if (!Directory.Exists(uploadFolder))
-            {
-                Directory.CreateDirectory(uploadFolder);
-            }
-
-            // Combine the folder path and filename to get the full path
-            var filePath = Path.Combine(uploadFolder, fileName);
-
-            // Save the file to the server
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
+            string fileName = await ProcessFile(file);
             // return the file path
 
             return Ok(fileName);
@@ -113,6 +121,10 @@ public class RecordsController : ControllerBase
     {
         try
         {
+            if (medicalRecord.Title == null)
+            {
+                medicalRecord.Title = "New Document";
+            }
             // Add the medicalRecord to your database
             _context.MedicalRecords.Add(medicalRecord);
 
@@ -121,6 +133,68 @@ public class RecordsController : ControllerBase
 
             // Return the created medicalRecord
             return Ok(medicalRecord);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost("updateRecord")]
+    public async Task<ActionResult<MedicalRecord>> UpdateMedicalRecord([FromBody] MedicalRecord medicalRecord)
+    {
+        try
+        {
+            // Find old record
+            var oldRecord = await _context.MedicalRecords.FindAsync(medicalRecord.RecordID);
+            if (oldRecord == null)
+            {
+                return NotFound();
+            }
+
+            // Update all properties from the incoming medicalRecord
+            oldRecord.Title = medicalRecord.Title;
+            oldRecord.RecordDate = medicalRecord.RecordDate;
+            oldRecord.RecordLink = medicalRecord.RecordLink;
+            oldRecord.PatientFName = medicalRecord.PatientFName;
+            oldRecord.DoctorFName = medicalRecord.DoctorFName;
+            oldRecord.PatientID = medicalRecord.PatientID;
+            oldRecord.DoctorID = medicalRecord.DoctorID;
+
+            _context.MedicalRecords.Update(oldRecord);
+            await _context.SaveChangesAsync();
+
+            // Return the updated medicalRecord
+            return Ok(oldRecord);
+        }
+        catch (Exception e)
+        {
+            return BadRequest($"Error updating record: {e.Message}\nStackTrace: {e.StackTrace}");
+        }
+    }
+
+
+
+    [HttpPost("deleteRecord/{id}")]
+    public async Task<ActionResult<MedicalRecord>> DeleteMedicalRecord(int id)
+    {
+        try
+        {
+            var record = await _context.MedicalRecords.FindAsync(id);
+
+            if (record == null)
+            {
+                return NotFound();
+            }
+            var FileName = record.RecordLink;
+            if (System.IO.File.Exists(FileName))
+            {
+                System.IO.File.Delete(FileName);
+            }
+            _context.MedicalRecords.Remove(record);
+            await _context.SaveChangesAsync();
+
+            return Ok(record);
         }
         catch (Exception e)
         {

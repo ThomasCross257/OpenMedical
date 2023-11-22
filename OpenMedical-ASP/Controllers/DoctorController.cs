@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OpenMedical_ASP.Repositories;
 using OpenMedical_Structs;
-using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using OpenMedical_ASP;
-using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -66,27 +63,6 @@ public class DoctorsController : ControllerBase
         return Ok(patientDocs);
     }
 
-    // Create a doctor account.
-    [HttpPost("createDoctor")]
-    public ActionResult<Doctor> AddDoctor([FromBody] Doctor Doctor)
-    {
-        try
-        {
-            // Hash the password before saving it
-            Doctor.Password = BCrypt.Net.BCrypt.HashPassword(Doctor.Password);
-            // Remove ID from the request body
-            // Add the Doctor to your database
-            _context.Doctors.Add(Doctor);
-            _context.SaveChanges();
-
-            // Return the created Doctor
-            return Ok(Doctor);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
 
     // Create a prescription for a patient.
     [HttpPost("createPrescription")]

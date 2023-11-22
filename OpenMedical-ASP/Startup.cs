@@ -1,18 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore.SqlServer;
-using OpenMedical_ASP;
-using OpenMedical_Structs; // Replace with the actual namespace of your models
-using OpenMedical_ASP.Repositories; // Replace with the actual namespace of your repositories
-using Microsoft.EntityFrameworkCore.Query;
+﻿using Microsoft.EntityFrameworkCore;
+using OpenMedical_ASP.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+
 
 namespace OpenMedical_ASP
 {
@@ -39,12 +31,11 @@ namespace OpenMedical_ASP
             });
             services.AddScoped<IDoctorRepository, DoctorRepository>();
             services.AddScoped<IPatientRepository, PatientRepository>();
-            // Add other services as needed
 
             // Add controllers and enable API versioning if needed
             services.AddControllers();
 
-            // Add CORS policy to allow requests from your React frontend
+            // Add CORS policy to allow requests from React fronetend
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowReactApp",
@@ -57,7 +48,7 @@ namespace OpenMedical_ASP
             // Configure Swagger/OpenAPI for API documentations
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OpenMedical Backend", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OpenMedical Backend", Version = "v1.0" });
 
                 // Define security scheme
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -125,7 +116,12 @@ namespace OpenMedical_ASP
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<OpenMedicalDBContext>();
+                context.Database.EnsureCreated();
+                DbInitializer.Initialize(context);
+            }
             // Enable CORS
             app.UseCors("AllowReactApp");
 

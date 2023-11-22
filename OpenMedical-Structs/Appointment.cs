@@ -26,6 +26,5 @@ namespace OpenMedical_Structs
         [StringLength(100)]
         public string DoctorFName { get; set; }
 
-        // Allowing these to be nullable for testing purposes
     }
 }

@@ -25,17 +25,6 @@ namespace OpenMedical_Structs
         [StringLength(100)]
         public string Email { get; set; }
 
-        [StringLength(255)]
-        public string Address { get; set; }
-
-        [StringLength(20)]
-        public string ZipCode { get; set; }
-
-        [StringLength(50)]
-        public string City { get; set; }
-
-        [StringLength(50)]
-        public string State { get; set; }
         [BindNever]
         public string Password { get; set; }
     }

@@ -105,4 +105,76 @@ public class AuthController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+    [HttpPost("createPatient")]
+    public ActionResult<Patient> AddPatient([FromBody] Patient patientRegister)
+    {
+        try
+        {
+            // Hash the password before saving it
+            patientRegister.Password = BCrypt.Net.BCrypt.HashPassword(patientRegister.Password);
+
+            // Add the patient to your database
+            _context.Patients.Add(patientRegister);
+            _context.SaveChanges();
+
+            // Assign the patient to a random doctor
+            var doctors = _context.Doctors.ToList();
+            if (doctors.Any())
+            {
+                var randomDoctor = doctors[new Random().Next(doctors.Count)];
+
+                var patientOf = new patientOf
+                {
+                    PatientID = patientRegister.PatientID,
+                    DoctorID = randomDoctor.DoctorID,
+                    PatientFName = patientRegister.FullName,
+                    DoctorFName = randomDoctor.FullName
+                };
+
+                _context.patientOf.Add(patientOf);
+                _context.SaveChanges();
+            }
+
+            // Return the created patient
+            return Ok("Created Patient " + patientRegister.FullName);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    [HttpPost("createDoctor")]
+    public ActionResult<Doctor> AddDoctor([FromBody] Doctor Doctor)
+    {
+        try
+        {
+            // Hash the password before saving it
+            Doctor.Password = BCrypt.Net.BCrypt.HashPassword(Doctor.Password);
+            // Add the Doctor to the database
+            _context.Doctors.Add(Doctor);
+            _context.SaveChanges();
+            var patients = _context.Patients.ToList();
+            if (patients.Any())
+            {
+                var randomPatient = patients[new Random().Next(patients.Count)];
+
+                var patientOf = new patientOf
+                {
+                    PatientID = randomPatient.PatientID,
+                    DoctorID = Doctor.DoctorID,
+                    PatientFName = randomPatient.FullName,
+                    DoctorFName = Doctor.FullName
+                };
+
+                _context.patientOf.Add(patientOf);
+                _context.SaveChanges();
+            }
+            // Return the created Doctor
+            return Ok(Doctor);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }

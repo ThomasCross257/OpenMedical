@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\OpenMedical-ASP.props" />
+</Project>

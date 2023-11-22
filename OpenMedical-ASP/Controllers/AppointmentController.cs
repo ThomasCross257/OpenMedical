@@ -83,4 +83,18 @@ public class AppointmentController : ControllerBase
             }
         }
     }
+    [HttpPost ("deleteAppointment/{id}")]
+    public async Task<ActionResult<Appointment>> DeleteAppointment(int id)
+    {
+        var appointment = await _context.Appointments.FindAsync(id);
+        if (appointment == null)
+        {
+            return NotFound("Appointment not found");
+        }
+
+        _context.Appointments.Remove(appointment);
+        await _context.SaveChangesAsync();
+
+        return Ok(appointment);
+    }
 }

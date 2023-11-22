@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import { getUserInfoFromToken } from '../assets/func/userFunc';
 
 interface AddPrescriptionProps {
   doctorId: string;
@@ -19,27 +20,36 @@ const AddPrescription: React.FC<AddPrescriptionProps> = ({ doctorId, patientId, 
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const id = await getUserInfoFromToken()?.ID;
+    const role = await getUserInfoFromToken()?.role;
 
+    if (role !== 'Doctor') {
+      alert('You are not authorized to perform this action');
+      return;
+    }
+    const body = {
+      prescriptionDate,
+      medication,
+      dosage: `${dosage} ${dosageMeasurement}`,
+      notes: notes ? notes : 'No notes',
+      patientFName: pname,
+      doctorFName: dname,
+      doctorId: id,
+      patientId,
+    };
+    console.log(body);
     const response = await fetch('https://localhost:7160/api/Doctors/createPrescription', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        prescriptionDate,
-        medication,
-        dosage: `${dosage} ${dosageMeasurement}`,
-        notes: notes ? notes : 'No notes',
-        patientFName: pname,
-        doctorFName: dname,
-        doctorId,
-        patientId,
-      }),
+      body: JSON.stringify(body),
     });
 
     const data = await response.json();
     console.log(data);
     onRequestClose();
+    window.location.reload();
   };
 
   return (

@@ -18,7 +18,6 @@ public class PrescriptionController : ControllerBase
     {
         if (role == "Doctor")
         {
-            // Doctors can only retrieve prescriptions for their patients
             var doctor = await _context.Doctors.FindAsync(id);
             if (doctor == null)
             {
@@ -32,7 +31,6 @@ public class PrescriptionController : ControllerBase
         }
         else if (role == "Patient")
         {
-            // Patients can retrieve their own prescriptions
             var patient = await _context.Patients.FindAsync(id);
             if (patient == null)
             {

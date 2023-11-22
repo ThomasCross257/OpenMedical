@@ -15,7 +15,7 @@ function Login() {
         console.log(response);
         localStorage.setItem('token', JSON.stringify(response.data.token));
         if (response.data.token) {
-          // Redirect to the home page
+          // Redirect to the dashboard page
           window.location.href = '/dashboard';
         }
       })
@@ -57,7 +57,6 @@ function Login() {
           <label className="form-check-label" htmlFor="exampleCheck1">Remember me</label>
         </div>
         <button type="submit" className="btn btn-primary">Submit</button>
-        <button className="btn btn-secondary">Forgot Password</button>
       </form>
     </div>
   );

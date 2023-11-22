@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import axios from 'axios';
 import { getUserInfoFromToken } from '../../assets/func/userFunc';
 import { DateTime } from 'luxon';
-import { start } from 'repl';
 
 interface ModalProps {
     isOpen: boolean;
@@ -14,19 +13,22 @@ interface ModalProps {
 const CreateAppointmentModal: React.FC<ModalProps> = ({ isOpen, onRequestClose, event }) => {
     const [datetime, setDatetime] = useState('');
     const [type, setType] = useState('');
-
     const UserInfo = getUserInfoFromToken();
     const patientID = UserInfo?.ID;
 
-
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const startDate = DateTime.fromISO(datetime, { zone: 'local' });
+        if (startDate < DateTime.now()) {
+            alert('Please select a valid date and time.');
+            return;
+        }
+        const endDate = startDate.plus({ hours: 1 });
+
         const doctorResponse = await axios.get(`https://localhost:7160/api/Patients/getPrimaryDoctor/${patientID}/${UserInfo?.role}`);
         const data = doctorResponse.data[0]
         const doctorID = data.doctorID;
-
-        const startDate = DateTime.fromISO(datetime, { zone: 'local' });
-        const endDate = startDate.plus({ hours: 1 });
 
         const appointment = {
             appointmentID: 0,
@@ -42,7 +44,7 @@ const CreateAppointmentModal: React.FC<ModalProps> = ({ isOpen, onRequestClose, 
 
         console.log(appointment);
 
-        const res = await axios.post('https://localhost:7160/api/Medical/createAppointment', appointment);
+        const res = await axios.post('https://localhost:7160/api/Appointment/createAppointment', appointment);
 
         if (res.data != null) {
             console.log(res.data);

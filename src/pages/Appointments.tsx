@@ -23,10 +23,10 @@ const Appointments = () => {
     if (UserInfo?.role === 'Patient' || UserInfo?.role === 'Doctor') {
       axios.get(`https://localhost:7160/api/Appointment/getAppointments/${UserInfo?.ID}/${UserInfo?.role}`)
         .then((res) => {
-
+          // Keep this outside of the if statement so that it doesn't constantly loop for new patients
+          setLoading(false);
           if (res.data != null) {
             setAppointments(res.data.map((appointment: any) => {
-              setLoading(false);
               return {
                 appointmentID: appointment.appointmentID,
                 patientID: appointment.patientID,

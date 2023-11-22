@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// @ts-nocheck
+import { useState, useEffect } from 'react';
 import { getUserInfoFromToken } from '../assets/func/userFunc';
 import { Spinner } from 'react-bootstrap';
 import PatientNotes from './PatientNotes';
@@ -18,22 +17,24 @@ function PrescriptionTable() {
     const [patients, setPatients] = useState([]);
     const [selectedPatient, setSelectedPatient] = useState(null);
     const [patientData, setPatientData] = useState([]);
-    const [loading, setLoading] = useState(true); // New state for loading
-    const emptyEvent = { title: '', start: new Date(), end: new Date(), reason: '' };
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchPatients = async () => {
-            try {
-                const response = await fetch(`https://localhost:7160/api/Doctors/getPatients/${userId}/${role}`);
-                const data = await response.json();
-                setPatients(data);
-                setLoading(false); // Set loading to false once data is fetched
-            } catch (error) {
-                console.error('Error fetching patients:', error);
-                setLoading(false); // Set loading to false in case of an error
-            }
-        };
-        fetchPatients();
+        if (role === 'Doctor') {
+            const fetchPatients = async () => {
+                try {
+                    const response = await fetch(`https://localhost:7160/api/Doctors/getPatients/${userId}/${role}`);
+                    const data = await response.json();
+                    setPatients(data);
+                    setLoading(false); // Set loading to false once data is fetched
+                } catch (error) {
+                    console.error('Error fetching patients:', error);
+                    setLoading(false); // Set loading to false in case of an error
+                }
+            };
+
+            fetchPatients();
+        }
     }, [userId, role]);
 
     useEffect(() => {
@@ -117,11 +118,13 @@ function PrescriptionTable() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {patientData && patientData.map((prescription: any, index: number) => (
+                                    {selectedPatient || role === "Patient" && patientData && patientData.map((prescription: any, index: number) => (
                                         <tr key={index}>
                                             <td>{prescription.medication}</td>
                                             <td>{prescription.dosage}</td>
-                                            <td>{prescription.prescriptionDate}</td>
+                                            <td>
+                                                {new Date(prescription.prescriptionDate).getMonth() + 1}/{new Date(prescription.prescriptionDate).getDate()}/{new Date(prescription.prescriptionDate).getFullYear()}
+                                            </td>
                                             <td>{prescription.doctorFName}</td>
                                             <td>
                                                 <button type="button" className="btn btn-primary" onClick={openPatientNotesModal}>View Notes</button>
@@ -133,7 +136,7 @@ function PrescriptionTable() {
                             </table>
                         </div>
                     </div>
-                    {patientData && patientData.map((prescription: any, index: number) => (
+                    {selectedPatient || role === "Patient" && patientData && patientData.map((prescription: any, index: number) => (
                         <div key={index}>
                             <PatientNotes isOpen={isPatientNotesModalOpen} onRequestClose={closeModal} notes={prescription.notes} />
                             <EditNotes isOpen={isEditNotesModalOpen} onRequestClose={closeModal} oldPrescription={prescription} />

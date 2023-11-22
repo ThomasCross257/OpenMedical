@@ -58,9 +58,6 @@ function RecentAppWidget() {
                             </li>
                         ))}
                     </ul>
-                    <div className="card-footer text-center">
-                        <button className="btn btn-primary" onClick={toPrevAppointments}>View All</button>
-                    </div>
                 </>
             )}
         </div>

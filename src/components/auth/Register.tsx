@@ -13,10 +13,6 @@ function Register() {
     Speciality: '', // Initialize fields specific to doctor registration
     DateOfBirth: '', // Initialize fields specific to patient registration
     Gender: '',
-    Address: '',
-    ZipCode: '',
-    City: '',
-    State: '',
   });
 
   async function registerUser(data: DoctorFormData | PatientFormData): Promise<void> {
@@ -24,7 +20,7 @@ function Register() {
       // Create a new object that only includes the properties with non-empty values
       const filteredData = Object.fromEntries(Object.entries(data).filter(([key, value]) => value !== ''));
       console.log(filteredData);
-      // Create a new object with the properties in the desired order
+      // Create a new object with the properties in the correct  order
       let sortedData;
       if (registrationType === 'doctor') {
         sortedData = {
@@ -38,25 +34,19 @@ function Register() {
       } else {
         sortedData = {
           patientID: 0,
-          firstName: filteredData.FirstName,
-          lastName: filteredData.LastName,
-          dateOfBirth: filteredData.DateOfBirth,
-          gender: filteredData.Gender,
+          fullName: filteredData.FullName,
+          dateOfBirth: new Date(filteredData.DateOfBirth),
+          gender: filteredData.Gender[0],
           contactNumber: filteredData.ContactNumber,
           email: filteredData.Email,
-          address: filteredData.Address,
-          zipCode: filteredData.ZipCode,
-          city: filteredData.City,
-          state: filteredData.State,
           password: filteredData.Password,
         };
       }
 
       // Send the sorted data to your API based on the registration type (doctor or patient)
       const endpoint = registrationType === 'doctor' ? 'createDoctor' : 'createPatient';
-      console.log(sortedData);
 
-      const response = await axios.post(`https://localhost:7160/api/Doctors/${endpoint}`, sortedData);
+      const response = await axios.post(`https://localhost:7160/api/Auth/${endpoint}`, sortedData);
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -86,7 +76,7 @@ function Register() {
       </div>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="FullName" className="form-label">First Name</label>
+          <label htmlFor="FullName" className="form-label">Full Name</label>
           <input type="text" className="form-control" id="FullName" onChange={handleInputChange} />
         </div>
         <div className="mb-3">
@@ -127,22 +117,6 @@ function Register() {
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="Address" className="form-label">Address</label>
-              <input type="text" className="form-control" id="Address" onChange={handleInputChange} />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="ZipCode" className="form-label">Zip</label>
-              <input type="text" className="form-control" id="ZipCode" onChange={handleInputChange} />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="City" className="form-label">City</label>
-              <input type="text" className="form-control" id="City" onChange={handleInputChange} />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="State" className="form-label">State</label>
-              <input type="text" className="form-control" id="State" onChange={handleInputChange} />
             </div>
           </div>
         )}
