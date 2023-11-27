@@ -18,22 +18,22 @@ function Homepage() {
         </div>
         <div className="carousel-inner">
           <div className="carousel-item active">
-            <div style={{ width: 'auto', height: '600px', backgroundColor: '#FFFF0' }}>
+            <div style={{ width: 'auto', height: '600px', backgroundColor: 'gray' }}>
               <img src={img1} className="d-block w-100" alt="..." style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }} />
             </div>
           </div>
           <div className="carousel-item">
-            <div style={{ width: 'auto', height: '600px', backgroundColor: '#FFFF0' }}>
+            <div style={{ width: 'auto', height: '600px', backgroundColor: 'gray' }}>
               <img src={img2} className="d-block w-100" alt="..." style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }} />
             </div>
           </div>
           <div className="carousel-item">
-            <div style={{ width: 'auto', height: '600px', backgroundColor: '#FFFF0' }}>
+            <div style={{ width: 'auto', height: '600px', backgroundColor: 'gray' }}>
               <img src={img3} className="d-block w-100" alt="..." style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }} />
             </div>
           </div>
           <div className="carousel-item">
-            <div style={{ width: 'auto', height: '600px', backgroundColor: '#FFFF0' }}>
+            <div style={{ width: 'auto', height: '600px', backgroundColor: 'gray' }}>
               <img src={img4} className="d-block w-100" alt="..." style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }} />
             </div>
           </div>
