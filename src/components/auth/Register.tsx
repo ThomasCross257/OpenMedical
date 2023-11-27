@@ -50,6 +50,7 @@ function Register() {
       console.log(response.data);
     } catch (error) {
       console.error(error);
+      alert('Error registering user');
     }
   }
 
@@ -65,6 +66,8 @@ function Register() {
     event.preventDefault();
     // Call registerUser with the formData
     registerUser(formData);
+    alert('Registration successful!');
+    window.location.reload();
   }
 
   return (

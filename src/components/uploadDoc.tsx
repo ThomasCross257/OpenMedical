@@ -43,6 +43,7 @@ const DocumentUpload: React.FC = (props) => {
   }
 
   const handleUpload = () => {
+    event?.preventDefault(); // Prevent page refresh on submit
     if (selectedFile) {
       uploadFile()
         .then((uploadResponse) => {
@@ -52,9 +53,11 @@ const DocumentUpload: React.FC = (props) => {
         .then((storeResponse) => {
           console.log('Record stored successfully:', storeResponse.data);
           alert('File uploaded successfully!');
+          window.location.reload();
         })
         .catch((error) => {
           console.error('Error:', error);
+          window.location.reload();
         });
     } else {
       alert('Please select a file to upload.');
@@ -62,6 +65,7 @@ const DocumentUpload: React.FC = (props) => {
   };
 
   const handleUpdate = () => {
+    event?.preventDefault();
     if (selectedFile) {
       uploadFile()
         .then((fileLink) => {
