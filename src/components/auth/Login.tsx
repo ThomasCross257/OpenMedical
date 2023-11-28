@@ -12,7 +12,6 @@ function Login() {
     axios.post('https://localhost:7160/api/Auth/login', formData)
       .then((response) => {
         // Store the token in local storage
-        console.log(response);
         localStorage.setItem('token', JSON.stringify(response.data.token));
         if (response.data.token) {
           // Redirect to the dashboard page

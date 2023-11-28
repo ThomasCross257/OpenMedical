@@ -56,9 +56,9 @@ const DoctorMedicalDocuments = () => {
   const deleteDoc = async (recordID: number) => {
     try {
       if (window.confirm('Are you sure you want to delete this document?')) {
-        console.log(recordID)
+        //console.log(recordID)
         await axios.post(`https://localhost:7160/api/Records/deleteRecord/${recordID}`).then((response) => {
-          console.log(response.data);
+          //console.log(response.data);
           window.alert('Document deleted');
           window.location.reload();
         });

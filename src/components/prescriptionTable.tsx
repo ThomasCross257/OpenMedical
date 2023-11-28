@@ -57,7 +57,7 @@ const PrescriptionTable = () => {
                         const response = await fetch(`https://localhost:7160/api/Prescription/getPrescriptions/${id}/${role}`);
                         const data = await response.json();
                         setPrescriptions(data);
-                        console.log(data);
+                        // console.log(data);
                     } else {
                         const response = await fetch(`https://localhost:7160/api/Prescription/getPrescriptions/${id}/${role}`);
                         const data = await response.json();
@@ -77,7 +77,7 @@ const PrescriptionTable = () => {
     const handlePatientSelect = (patient) => {
         setSelectedPatient(patient);
     };
-    console.log(patients)
+    // console.log(patients)
     return (
         <div className="container">
             <h1 className="my-4">Prescriptions</h1>

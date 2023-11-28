@@ -42,12 +42,12 @@ const CreateAppointmentModal: React.FC<ModalProps> = ({ isOpen, onRequestClose, 
             status: 'Pending',
         };
 
-        console.log(appointment);
+        // console.log(appointment);
 
         const res = await axios.post('https://localhost:7160/api/Appointment/createAppointment', appointment);
 
         if (res.data != null) {
-            console.log(res.data);
+            // console.log(res.data);
             onRequestClose();
             window.location.reload();
         }

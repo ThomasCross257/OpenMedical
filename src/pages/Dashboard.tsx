@@ -12,7 +12,7 @@ function PatientDash() {
   const ID = info?.ID;
   const role = info?.role;
   const userName = info?.name;
-  console.log(info);
+  // console.log(info);
   useEffect(() => {
 
     setUserID(ID ?? null);

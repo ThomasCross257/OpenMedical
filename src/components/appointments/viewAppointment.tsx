@@ -19,8 +19,8 @@ const ViewAppointmentModal: React.FC<ModalProps> = ({ isOpen, onRequestClose, ev
   }
 
   useEffect(() => {
-    console.log('userRole:', userRole);
-    console.log('event.status:', event.status);
+    // console.log('userRole:', userRole);
+    // console.log('event.status:', event.status);
   }, [userRole, event.status]);
 
   let initialAppointment = {
@@ -47,7 +47,7 @@ const ViewAppointmentModal: React.FC<ModalProps> = ({ isOpen, onRequestClose, ev
       if (confirmCancel === true) {
         const res = await axios.post(`https://localhost:7160/api/Appointment/deleteAppointment/${event.appointmentID}`);
         if (res.data != null) {
-          console.log(res.data);
+          // console.log(res.data);
           onRequestClose();
           window.location.reload();
         }
@@ -55,7 +55,7 @@ const ViewAppointmentModal: React.FC<ModalProps> = ({ isOpen, onRequestClose, ev
     } else {
       const res = await axios.post(`https://localhost:7160/api/Appointment/updateAppointment/${event.appointmentID}`, mappedAppointment);
       if (res.data != null) {
-        console.log(res.data);
+        // console.log(res.data);
         onRequestClose();
         window.location.reload();
       }

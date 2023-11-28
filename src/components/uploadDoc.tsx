@@ -51,7 +51,7 @@ const DocumentUpload: React.FC = (props) => {
           return axios.post('https://localhost:7160/api/Records/storeRecord', recordData);
         })
         .then((storeResponse) => {
-          console.log('Record stored successfully:', storeResponse.data);
+          // console.log('Record stored successfully:', storeResponse.data);
           alert('File uploaded successfully!');
           window.location.reload();
         })
@@ -78,7 +78,7 @@ const DocumentUpload: React.FC = (props) => {
         });
     } else {
       const recordData = prepareRecordData(props.originalLink);
-      console.log(recordData);
+      // console.log(recordData);
       return updateRecord(recordData);
     }
   };
@@ -96,11 +96,11 @@ const DocumentUpload: React.FC = (props) => {
 
     return axios.post('https://localhost:7160/api/Records/uploadRecord', formData, {
       onUploadProgress: (progressEvent) => {
-        console.log(`Upload progress: ${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`);
+        // console.log(`Upload progress: ${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`);
       },
     })
       .then((uploadResponse) => {
-        console.log('File uploaded successfully:', uploadResponse.data);
+        // console.log('File uploaded successfully:', uploadResponse.data);
         return "/OpenMedical-ASP/uploads/" + uploadResponse.data; // Return the file link
       })
       .catch((error) => {
@@ -120,14 +120,14 @@ const DocumentUpload: React.FC = (props) => {
       doctorFName: role === 'Doctor' ? userName : primaryDoctor[0]?.doctorFName,
       recordLink: fileLink, // Record link is null if there is no new file
     };
-    console.log(recordData);
+    // console.log(recordData);
     return recordData;
   };
 
   const updateRecord = (recordData) => {
     return axios.post('https://localhost:7160/api/Records/updateRecord', recordData)
       .then((storeResponse) => {
-        console.log('Record updated successfully:', storeResponse.data);
+        // console.log('Record updated successfully:', storeResponse.data);
         alert('File uploaded successfully!');
       })
       .catch((error) => {

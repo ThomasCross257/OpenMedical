@@ -19,7 +19,7 @@ function Register() {
     try {
       // Create a new object that only includes the properties with non-empty values
       const filteredData = Object.fromEntries(Object.entries(data).filter(([key, value]) => value !== ''));
-      console.log(filteredData);
+      // console.log(filteredData);
       // Create a new object with the properties in the correct  order
       let sortedData;
       if (registrationType === 'doctor') {
@@ -47,7 +47,7 @@ function Register() {
       const endpoint = registrationType === 'doctor' ? 'createDoctor' : 'createPatient';
 
       const response = await axios.post(`https://localhost:7160/api/Auth/${endpoint}`, sortedData);
-      console.log(response.data);
+      //console.log(response.data);
     } catch (error) {
       console.error(error);
       alert('Error registering user');

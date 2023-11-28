@@ -32,7 +32,7 @@ const EditNotes: React.FC<ModalProps> = ({ isOpen, onRequestClose, oldPrescripti
     });
 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     onRequestClose();
   };
   return (

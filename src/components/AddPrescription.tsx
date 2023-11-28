@@ -37,7 +37,7 @@ const AddPrescription: React.FC<AddPrescriptionProps> = ({ doctorId, patientId, 
       doctorId: id,
       patientId,
     };
-    console.log(body);
+    // console.log(body);
     const response = await fetch('https://localhost:7160/api/Doctors/createPrescription', {
       method: 'POST',
       headers: {
@@ -47,7 +47,7 @@ const AddPrescription: React.FC<AddPrescriptionProps> = ({ doctorId, patientId, 
     });
 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     onRequestClose();
     window.location.reload();
   };
