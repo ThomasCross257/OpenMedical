@@ -1,156 +1,232 @@
-// @ts-nocheck
-import { useState, useEffect } from 'react';
+//@ts-nocheck
+import React, { useState, useEffect } from 'react';
 import { getUserInfoFromToken } from '../assets/func/userFunc';
 import { Spinner } from 'react-bootstrap';
 import PatientNotes from './PatientNotes';
 import EditNotes from './editNotes';
 import AddPrescription from './AddPrescription';
 
-const Token = getUserInfoFromToken();
-const userId = Token?.ID;
-const role = Token?.role;
-
-function PrescriptionTable() {
-    const [isPatientNotesModalOpen, setIsPatientNotesModalOpen] = useState(false);
-    const [isEditNotesModalOpen, setIsEditNotesModalOpen] = useState(false);
-    const [isNewPrescriptionOpen, setIsNewPrescriptionOpen] = useState(false);
-    const [patients, setPatients] = useState([]);
+const PrescriptionTable = () => {
+    const [prescriptions, setPrescriptions] = useState([]);
     const [selectedPatient, setSelectedPatient] = useState(null);
-    const [patientData, setPatientData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [patients, setPatients] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [isViewNotesModalOpen, setViewNotesModalOpen] = useState(false);
+    const [isEditNotesModalOpen, setEditNotesModalOpen] = useState(false);
+    const [isNewPrescriptionOpen, setNewPrescriptionModalOpen] = useState(false);
+
+    const openViewNotesModal = () => setViewNotesModalOpen(true);
+    const closeViewNotesModal = () => setViewNotesModalOpen(false);
+
+    const openNewPrescriptionModal = () => setNewPrescriptionModalOpen(true);
+    const closeNewPrescriptionModal = () => setNewPrescriptionModalOpen(false);
+
+    const openEditNotesModal = () => setEditNotesModalOpen(true);
+    const closeEditNotesModal = () => setEditNotesModalOpen(false);
+
+    const Token = getUserInfoFromToken();
+    const role = Token?.role;
+    const id = Token?.ID;
 
     useEffect(() => {
         if (role === 'Doctor') {
             const fetchPatients = async () => {
                 try {
-                    const response = await fetch(`https://localhost:7160/api/Doctors/getPatients/${userId}/${role}`);
+                    const response = await fetch(`https://localhost:7160/api/Doctors/getPatients/${id}/${role}`);
                     const data = await response.json();
                     setPatients(data);
-                    setLoading(false); // Set loading to false once data is fetched
                 } catch (error) {
                     console.error('Error fetching patients:', error);
-                    setLoading(false); // Set loading to false in case of an error
+                } finally {
+                    setLoading(false);
                 }
             };
 
             fetchPatients();
         }
-    }, [userId, role]);
+    }, [role, Token?.ID]);
 
     useEffect(() => {
-        const fetchPatientDetails = async () => {
-            try {
-                const response = await fetch(`https://localhost:7160/api/Prescription/getPrescriptions/${userId}/${role}`);
-                const data = await response.json();
-                setPatientData(data);
-                setLoading(false); // Set loading to false once data is fetched
-            } catch (error) {
-                console.error('Error fetching patient details:', error);
-                setLoading(false); // Set loading to false in case of an error
-            }
-        };
+        setPrescriptions([]);
+        setLoading(true);
+        if (role === 'Doctor' && selectedPatient || role === 'Patient') {
+            const fetchPrescriptions = async () => {
+                try {
+                    setPrescriptions([]);
+                    if (role === 'Doctor') {
+                        const response = await fetch(`https://localhost:7160/api/Prescription/getPrescriptions/${id}/${role}`);
+                        const data = await response.json();
+                        setPrescriptions(data);
+                        console.log(data);
+                    } else {
+                        const response = await fetch(`https://localhost:7160/api/Prescription/getPrescriptions/${id}/${role}`);
+                        const data = await response.json();
+                        setPrescriptions(data);
+                    }
+                } catch (error) {
+                    console.error('Error fetching prescriptions:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
 
-        fetchPatientDetails();
-    }, [selectedPatient, userId, role]);
+            fetchPrescriptions();
+        }
+    }, [role, selectedPatient, Token?.ID]);
 
-    const openPatientNotesModal = () => {
-        setIsPatientNotesModalOpen(true);
+    const handlePatientSelect = (patient) => {
+        setSelectedPatient(patient);
     };
-
-    const openEditNotesModal = () => {
-        setIsEditNotesModalOpen(true);
-    };
-
-    const openNewPrescriptionModal = () => {
-        setIsNewPrescriptionOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsEditNotesModalOpen(false);
-        setIsPatientNotesModalOpen(false);
-        setIsNewPrescriptionOpen(false);
-    };
-
+    console.log(patients)
     return (
         <div className="container">
-            {loading ? ( // Display spinner while loading
+            <h1 className="my-4">Prescriptions</h1>
+            {loading ? (
                 <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100px' }}>
                     <Spinner animation="border" role="status" />
                 </div>
             ) : (
                 <>
-                    <div className="dropstart">
-                        {role === 'Doctor' ?
-                            <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Patient
-                            </button>
-                            : ''}
-                        {role === 'Doctor' ?
-                            <ul className="dropdown-menu">
-                                {patients.map((patient: any) => (
-                                    <li key={patient.patientID}>
-                                        <a
-                                            className="dropdown-item"
-                                            href="#"
-                                            onClick={() => setSelectedPatient(patient)}
-                                        >
-                                            {patient.patientFName}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                            : ''}
-                    </div>
-                    <div className="card">
-                        <div className="card-body">
-                            <h4 className="card-title">
-                                {role === 'Doctor' ? (selectedPatient ? selectedPatient.patientFName : 'No patient selected') : Token?.name}
-                            </h4>
-                            {selectedPatient ? <button type="button" className="btn btn-primary" onClick={openNewPrescriptionModal}>Add Prescription</button> : ''}
-                            <table className="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Prescription</th>
-                                        <th scope="col">Dosage</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Doctor</th>
-                                        <th scope="col">Options</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {selectedPatient || role === "Patient" && patientData && patientData.map((prescription: any, index: number) => (
-                                        <tr key={index}>
-                                            <td>{prescription.medication}</td>
-                                            <td>{prescription.dosage}</td>
-                                            <td>
-                                                {new Date(prescription.prescriptionDate).getMonth() + 1}/{new Date(prescription.prescriptionDate).getDate()}/{new Date(prescription.prescriptionDate).getFullYear()}
-                                            </td>
-                                            <td>{prescription.doctorFName}</td>
-                                            <td>
-                                                <button type="button" className="btn btn-primary" onClick={openPatientNotesModal}>View Notes</button>
-                                                {role === 'Doctor' ? <button type="button" className="btn btn-primary" onClick={openEditNotesModal}>Edit Notes</button> : ''}
-                                            </td>
+                    {role === 'Doctor' ? (
+                        <>
+                            <div className="row mb-3">
+                                <div className="col">
+                                    <div className="dropdown">
+                                        <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Patient
+                                        </button>
+                                        <ul className="dropdown-menu">
+                                            {patients.map((patient) => (
+                                                <li key={patient.patientID}>
+                                                    <a
+                                                        className="dropdown-item"
+                                                        href="#"
+                                                        onClick={() => handlePatientSelect(patient)}
+                                                    >
+                                                        {patient.patientFName}
+                                                    </a>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {selectedPatient && (
+                                <div className="card">
+                                    <div className="card-body">
+                                        <h4 className="card-title">{selectedPatient.patientFName}</h4>
+                                        {role === 'Doctor' && (
+                                            <button className="btn btn-success" onClick={() => openNewPrescriptionModal()}>
+                                                Add Prescription
+                                            </button>
+                                        )}
+                                        <table className="table table-striped mt-3">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Medication</th>
+                                                    <th scope="col">Prescription Date</th>
+                                                    <th scope="col">Dosage</th>
+                                                    <th scope="col">Doctor</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {prescriptions.length > 0 ? (
+                                                    prescriptions.map((prescription) => (
+                                                        <tr key={prescription.prescriptionID}>
+                                                            <td>{prescription.medication}</td>
+                                                            <td>{new Date(prescription.prescriptionDate).toLocaleDateString()}</td>
+                                                            <td>{prescription.dosage}</td>
+                                                            <td>{prescription.doctorFName}</td>
+                                                            <td>
+                                                                <button
+                                                                    className="btn btn-success"
+                                                                    onClick={() => {
+                                                                        openViewNotesModal();
+                                                                    }}
+                                                                >
+                                                                    View Notes
+                                                                </button>
+                                                            </td>
+                                                            {role === 'Doctor' && (
+                                                                <>
+                                                                    <td>
+                                                                        <button
+                                                                            className="btn btn-warning"
+                                                                            onClick={() => {
+                                                                                openEditNotesModal();
+                                                                            }}
+                                                                        >
+                                                                            Edit
+                                                                        </button>
+                                                                    </td>
+                                                                    <PatientNotes
+                                                                        isOpen={isViewNotesModalOpen}
+                                                                        onRequestClose={closeViewNotesModal}
+                                                                        notes={prescription.notes}
+                                                                    />
+                                                                    <EditNotes
+                                                                        isOpen={isEditNotesModalOpen}
+                                                                        onRequestClose={closeEditNotesModal}
+                                                                        oldPrescription={prescription}
+                                                                    />
+
+                                                                </>
+                                                            )}
+                                                        </tr>
+                                                    ))
+
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan={role === 'Doctor' ? 6 : 5}>No prescriptions found.</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <div className="card">
+                            <div className="card-body">
+                                <h4 className="card-title">{Token?.name}</h4>
+                                <table className="table table-striped mt-3">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Prescription Date</th>
+                                            <th scope="col">Medication</th>
+                                            <th scope="col">Dosage</th>
+                                            <th scope="col">Notes</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {prescriptions.map((prescription) => (
+                                            <tr key={prescription.prescriptionID}>
+                                                <td>{new Date(prescription.prescriptionDate).toLocaleDateString()}</td>
+                                                <td>{prescription.medication}</td>
+                                                <td>{prescription.dosage}</td>
+                                                <td>{prescription.notes}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    {selectedPatient || role === "Patient" && patientData && patientData.map((prescription: any, index: number) => (
-                        <div key={index}>
-                            <PatientNotes isOpen={isPatientNotesModalOpen} onRequestClose={closeModal} notes={prescription.notes} />
-                            <EditNotes isOpen={isEditNotesModalOpen} onRequestClose={closeModal} oldPrescription={prescription} />
-                        </div>
-                    ))}
-                    <AddPrescription isOpen={isNewPrescriptionOpen} onRequestClose={closeModal}
-                        userId={userId}
-                        patientId={selectedPatient?.patientID}
-                        pname={selectedPatient?.patientFName}
-                        dname={Token?.name} />
+                    )}
                 </>
-            )}
-        </div>
+            )
+            }
+            <AddPrescription
+                isOpen={isNewPrescriptionOpen}
+                onRequestClose={closeNewPrescriptionModal}
+                userId={id}
+                patientId={selectedPatient?.patientID}
+                pname={selectedPatient?.patientFName}
+                dname={Token?.name}
+            />
+        </div >
     );
-}
+};
 
 export default PrescriptionTable;

@@ -79,33 +79,38 @@ const ViewAppointmentModal: React.FC<ModalProps> = ({ isOpen, onRequestClose, ev
               <p>Start: {new Date(event.start).toLocaleString()} to {new Date(event.end).toLocaleString()} </p>
               <p>Status:</p>
               {event.status !== 'Cancelled' && event.status !== 'Completed' ? (
-
-                <select
-                  className="form-select"
-                  value={mappedAppointment.status}
-                  onChange={(e) => {
-                    setMappedAppointment(prevState => ({
-                      ...prevState,
-                      status: e.target.value
-                    }));
-                  }}
-                >
-                  {event.status === 'Pending' ? <option value="Pending">Pending</option> : null}
-                  <option value="Cancelled">Cancelled</option>
-                  {userRole === 'Doctor' ? <option value="Approved">Approved</option> : null}
-                  {userRole === 'Doctor' ? <option value="Completed">Completed</option> : null}
-                </select>
+                <div>
+                  <select
+                    className="form-select"
+                    value={mappedAppointment.status}
+                    onChange={(e) => {
+                      setMappedAppointment(prevState => ({
+                        ...prevState,
+                        status: e.target.value
+                      }));
+                    }}
+                  >
+                    {event.status === 'Pending' ? <option value="Pending">Pending</option> : null}
+                    {event.status === 'Approved' ? <option value="Approved">Approved</option> : null}
+                    <option value="Cancelled">Cancelled</option>
+                    {userRole === 'Doctor' ? <option value="Approved">Approved</option> : null}
+                    {userRole === 'Doctor' ? <option value="Completed">Completed</option> : null}
+                  </select>
+                  <p>Doctor Name: {event.doctorName}</p>
+                  {event.status != 'Approved' || event.status != 'Completed' ? (
+                    <button className="btn btn-secondary" onClick={alterAppointment}>
+                      Change Status
+                    </button>
+                  ) : null
+                  }
+                </div>
               ) : (
                 <p>{event.status}</p>
               )}
-              <p>Doctor Name: {event.doctorName}</p>
+              <br />
+              <br />
               <button className="btn btn-primary" onClick={onRequestClose}>
                 Close
-              </button>
-              <br />
-              <br />
-              <button className="btn btn-secondary" onClick={alterAppointment}>
-                Change Status
               </button>
             </div>
           </div>

@@ -110,6 +110,11 @@ public class AuthController : ControllerBase
     {
         try
         {
+            // Check if the email is already in use
+            if (_context.Patients.Any(p => p.Email == patientRegister.Email))
+            {
+                return BadRequest("Email already in use");
+            }
             // Hash the password before saving it
             patientRegister.Password = BCrypt.Net.BCrypt.HashPassword(patientRegister.Password);
 
@@ -148,6 +153,11 @@ public class AuthController : ControllerBase
     {
         try
         {
+            // Check if the email is already in use
+            if (_context.Doctors.Any(d => d.Email == Doctor.Email))
+            {
+                return BadRequest("Email already in use");
+            }
             // Hash the password before saving it
             Doctor.Password = BCrypt.Net.BCrypt.HashPassword(Doctor.Password);
             // Add the Doctor to the database
