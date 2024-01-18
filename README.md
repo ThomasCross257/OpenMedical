@@ -35,26 +35,6 @@ npm i
 npm run dev
 ```
 
-<hr/>
+4. Open the OpenMedical-ASP project in the latest version of Visual Studio
 
-## 3. Progress
-
-### 3.1. Frontend
-
-<ul>
-    <li>Homepage: 95%</li>
-    <li>About: 95%</li>
-    <li>Login: 23%</li>
-    <li>Register: 23%</li>
-    <li>Dashboard: 20%</li>
-    <li>Appointment Management: 50%</li>
-    <li>Medical Record Management: 10%</li>
-    <li>Medical Prescription Management: 0%</li>
-    <li>Medical Result Vewing and Management: 25%</li>
-</ul>
-
-### 3.2. Backend
-
-    #### Not started yet
-
-<hr/>
+5. Click the run without debugging option on the top. Both the backend and frontend should be connected.
